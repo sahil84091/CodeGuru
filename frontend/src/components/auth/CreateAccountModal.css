@@ -1,0 +1,466 @@
+/* ==========================================================================
+   CodeGuru Game-Style Create Account Modal Stylesheet
+   Theme: In-Game Cyber-Stone Registration Modal (Player Profile Creation)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. MODAL CONTAINER (Slightly wider for 2-column Course & Branch)
+   -------------------------------------------------------------------------- */
+.cg-create-modal-container {
+  max-width: 535px;
+  animation: modalPopIn 0.32s cubic-bezier(0.175, 0.885, 0.32, 1.2) forwards;
+}
+
+/* --------------------------------------------------------------------------
+   2. INTERIOR PANEL PADDING & SCROLL
+   -------------------------------------------------------------------------- */
+.cg-create-panel-content {
+  padding: 2.1rem 2.1rem 1.4rem 2.1rem;
+  max-height: calc(100vh - 60px);
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+/* --------------------------------------------------------------------------
+   3. HEADER & TITLE DECORATION
+   -------------------------------------------------------------------------- */
+.cg-create-modal-header {
+  margin-bottom: 0.95rem;
+}
+
+.cg-create-title {
+  font-size: 2.05rem;
+  font-weight: 800;
+  color: #0c1938;
+  letter-spacing: -0.5px;
+}
+
+.cg-title-accent-decor {
+  color: #94a3b8;
+  font-size: 0.85rem;
+  letter-spacing: 3px;
+  font-weight: 600;
+}
+
+.cg-title-highlight {
+  color: #168bff;
+  text-shadow: 0 0 16px rgba(22, 139, 255, 0.25);
+}
+
+/* --------------------------------------------------------------------------
+   4. REGISTRATION FORM STYLES
+   -------------------------------------------------------------------------- */
+.cg-create-account-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.62rem;
+  margin-bottom: 0.75rem;
+  text-align: left;
+}
+
+/* Input Icon Support */
+.cg-auth-input-field.has-left-icon {
+  padding-left: 0.25rem;
+}
+
+.cg-input-left-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 0.75rem;
+  color: #64748b;
+  flex-shrink: 0;
+}
+
+.cg-auth-input-field.has-left-icon .cg-input-element {
+  padding-left: 0.65rem;
+}
+
+.cg-input-element {
+  padding: 0.74rem 1rem;
+  font-size: 0.92rem;
+}
+
+/* --------------------------------------------------------------------------
+   5. TWO-COLUMN COURSE & BRANCH ROW
+   -------------------------------------------------------------------------- */
+.cg-form-row-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.65rem;
+  width: 100%;
+}
+
+/* Auth Select Component */
+.cg-auth-select-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.cg-auth-select-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.cg-auth-select-field:focus-within {
+  border-color: #38bdf8;
+  background: #ffffff;
+  box-shadow: 
+    0 0 0 3px rgba(56, 189, 248, 0.2),
+    inset 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.cg-auth-select-field.cg-input-error {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.16);
+}
+
+.cg-select-left-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 0.75rem;
+  color: #64748b;
+  flex-shrink: 0;
+}
+
+.cg-select-element {
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #0f172a;
+  padding: 0.74rem 2rem 0.74rem 0.55rem;
+  cursor: pointer;
+  box-sizing: border-box;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.cg-auth-select-field.is-placeholder .cg-select-element {
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.cg-select-arrow {
+  position: absolute;
+  right: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  color: #64748b;
+}
+
+/* --------------------------------------------------------------------------
+   6. TERMS & CONDITIONS CHECKBOX
+   -------------------------------------------------------------------------- */
+.cg-terms-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin-top: 0.1rem;
+  margin-bottom: 0.25rem;
+}
+
+.cg-terms-label {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.cg-terms-text {
+  font-family: var(--font-body);
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: #334155;
+  line-height: 1.3;
+}
+
+.cg-terms-link {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 700;
+  color: #168bff;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color 0.18s ease;
+}
+
+.cg-terms-link:hover {
+  color: #0284c7;
+}
+
+/* --------------------------------------------------------------------------
+   7. CREATE ACCOUNT PRIMARY BUTTON
+   -------------------------------------------------------------------------- */
+.cg-btn-create-primary {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0.82rem 1.4rem;
+  border-radius: 13px;
+  background: linear-gradient(135deg, #00d2ff 0%, #168bff 55%, #0077b6 100%);
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  color: #ffffff;
+  font-family: var(--font-heading);
+  font-size: 1.08rem;
+  font-weight: 800;
+  cursor: pointer;
+  overflow: hidden;
+  box-shadow: 
+    0 0 20px rgba(22, 139, 255, 0.6),
+    0 6px 18px rgba(0, 0, 0, 0.22);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cg-btn-create-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 0 30px rgba(22, 139, 255, 0.8),
+    0 10px 22px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+.cg-btn-create-primary:hover:not(:disabled) .cg-btn-signin-arrow {
+  transform: translateX(4px);
+}
+
+.cg-btn-create-primary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.cg-btn-create-primary.is-disabled,
+.cg-btn-create-primary:disabled {
+  opacity: 0.52;
+  cursor: not-allowed;
+  filter: grayscale(0.2);
+  box-shadow: none;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* --------------------------------------------------------------------------
+   8. DIVIDER & CONTINUE WITH TEXT
+   -------------------------------------------------------------------------- */
+.cg-create-divider {
+  margin-bottom: 0.35rem;
+}
+
+.cg-continue-with-text {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #64748b;
+  margin-bottom: 0.65rem;
+  letter-spacing: 0.2px;
+}
+
+.cg-create-social-row {
+  margin-bottom: 0.85rem;
+}
+
+.cg-create-footer {
+  margin-top: 0.2rem;
+}
+
+/* --------------------------------------------------------------------------
+   9. CONNECTING NEON CYAN BOTTOM BAR
+   -------------------------------------------------------------------------- */
+.cg-decor-bottom-bar {
+  position: absolute;
+  bottom: 8px;
+  left: 28%;
+  right: 28%;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, #00e5ff 30%, #00e5ff 70%, transparent);
+  box-shadow: 0 0 10px #00e5ff;
+  border-radius: 2px;
+  z-index: 20;
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   10. SHORT HEIGHT & RESPONSIVE RULES
+   -------------------------------------------------------------------------- */
+@media (max-height: 820px) {
+  .cg-modal-backdrop {
+    padding: 20px 18px 18px 18px;
+  }
+
+  .cg-create-panel-content {
+    padding: 1.6rem 1.8rem 1rem 1.8rem;
+    max-height: calc(100vh - 52px);
+  }
+
+  .cg-create-title {
+    font-size: 1.8rem;
+  }
+
+  .cg-create-modal-header {
+    margin-bottom: 0.6rem;
+  }
+
+  .cg-create-account-form {
+    gap: 0.45rem;
+    margin-bottom: 0.45rem;
+  }
+
+  .cg-input-element,
+  .cg-select-element {
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+    font-size: 0.88rem;
+  }
+
+  .cg-btn-create-primary {
+    padding: 0.72rem 1.2rem;
+    font-size: 1rem;
+  }
+
+  .cg-social-circle-btn {
+    width: 40px;
+    height: 40px;
+  }
+
+  .cg-continue-with-text {
+    margin-bottom: 0.4rem;
+    font-size: 0.78rem;
+  }
+
+  .cg-create-social-row {
+    margin-bottom: 0.55rem;
+  }
+}
+
+@media (max-height: 680px) {
+  .cg-modal-backdrop {
+    padding: 14px 12px;
+  }
+
+  .cg-modal-logo-img {
+    height: 42px;
+  }
+
+  .cg-modal-logo-crest {
+    top: -17px;
+  }
+
+  .cg-create-panel-content {
+    padding: 1.35rem 1.5rem 0.8rem 1.5rem;
+    max-height: calc(100vh - 42px);
+  }
+
+  .cg-create-title {
+    font-size: 1.62rem;
+  }
+
+  .cg-create-modal-header {
+    margin-bottom: 0.45rem;
+  }
+
+  .cg-create-account-form {
+    gap: 0.38rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .cg-input-element,
+  .cg-select-element {
+    padding-top: 0.52rem;
+    padding-bottom: 0.52rem;
+    font-size: 0.84rem;
+  }
+
+  .cg-btn-create-primary {
+    padding: 0.62rem 1.1rem;
+    font-size: 0.95rem;
+  }
+
+  .cg-social-circle-btn {
+    width: 36px;
+    height: 36px;
+  }
+
+  .cg-continue-with-text {
+    margin-bottom: 0.35rem;
+    font-size: 0.74rem;
+  }
+
+  .cg-create-social-row {
+    margin-bottom: 0.45rem;
+  }
+
+  .cg-decor-bottom-left,
+  .cg-decor-bottom-right {
+    width: 90px;
+    bottom: -2px;
+  }
+}
+
+/* Tablet Screens (max-width: 768px) */
+@media (max-width: 768px) {
+  .cg-create-modal-container {
+    max-width: 500px;
+  }
+
+  .cg-create-panel-content {
+    padding: 1.8rem 1.6rem 1.2rem 1.6rem;
+  }
+
+  .cg-decor-bottom-bar {
+    left: 20%;
+    right: 20%;
+  }
+}
+
+/* Mobile Screens (max-width: 540px) */
+@media (max-width: 540px) {
+  .cg-form-row-2col {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+}
+
+/* Mobile Screens (max-width: 520px) */
+@media (max-width: 520px) {
+  .cg-create-modal-container {
+    max-width: 100%;
+  }
+
+  .cg-create-panel-content {
+    padding: 1.8rem 1.2rem 1.2rem 1.2rem;
+  }
+
+  .cg-create-title {
+    font-size: 1.65rem;
+  }
+
+  .cg-decor-bottom-bar,
+  .cg-decor-bottom-left,
+  .cg-decor-bottom-right,
+  .cg-cyber-cube {
+    display: none;
+  }
+}

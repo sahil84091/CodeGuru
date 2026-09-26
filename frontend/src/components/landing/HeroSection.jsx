@@ -1,97 +1,115 @@
-import React, { useState } from 'react'
-import GameWorldCenterpiece from './GameWorldCenterpiece'
+import React from 'react'
 
-export default function HeroSection() {
-  const [mobileNumber, setMobileNumber] = useState('')
-
-  const handleStart = (e) => {
-    e.preventDefault()
-    if (!mobileNumber.trim()) {
-      alert('Please enter your mobile number to begin your adventure!')
-      return
+export default function HeroSection({ onOpenSignIn }) {
+  const handleCtaClick = () => {
+    if (onOpenSignIn) {
+      onOpenSignIn()
     }
-    alert(`Welcome, Adventurer! Verification flow will be unlocked in the next phase for ${mobileNumber}.`)
   }
 
   return (
     <section className="cg-hero-section">
-      <div className="cg-hero-container">
-        {/* Left Column: Glass HUD Content Card */}
-        <div className="cg-hero-left-card">
-          {/* Eyebrow Badge */}
-          <div className="cg-eyebrow-badge">
-            <span className="cg-pulse-dot"></span>
+      {/* Subtle Left Vignette for Typography Contrast */}
+      <div className="cg-hero-backdrop-gradient" aria-hidden="true"></div>
+
+      <div className="cg-hero-content-wrapper">
+        {/* Left Column: Direct Game World Overlay Typography & CTA */}
+        <div className="cg-hero-left">
+          {/* Eyebrow Pill */}
+          <div className="cg-eyebrow-pill">
+            <span className="cg-eyebrow-dot"></span>
             <span className="cg-eyebrow-text">A BRIGHTER YOU, A BRIGHTER TOMORROW</span>
-            <span className="cg-eyebrow-code">&lt;/&gt;</span>
+            <span className="cg-eyebrow-symbol">&lt;/&gt;</span>
           </div>
 
-          {/* Main Heading with Gaming Typography */}
+          {/* Dominant Main Heading */}
           <h1 className="cg-hero-title">
-            Your Coding<br />
-            Journey <span className="cg-highlight-green">Begins</span><br />
-            <span className="cg-highlight-green">Here.</span>
+            <span className="cg-title-line">Your Coding</span>
+            <span className="cg-title-line">
+              Journey <span className="cg-text-highlight">Begins</span>
+            </span>
+            <span className="cg-title-line cg-title-here-wrap">
+              <span className="cg-text-highlight">Here.</span>
+              {/* Yellow Decorative Swoop matching reference */}
+              <svg
+                className="cg-title-swoop"
+                viewBox="0 0 160 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M4 14C35 5 110 4 156 16C122 10 50 11 12 18"
+                  stroke="#fbbf24"
+                  strokeWidth="5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </span>
           </h1>
 
-          {/* Supporting Heading */}
+          {/* Supporting Subtitle */}
           <h2 className="cg-hero-subtitle">
             Learn. Play. Practice. Grow.
           </h2>
 
-          {/* Supporting Description */}
-          <p className="cg-hero-desc">
+          {/* Description */}
+          <p className="cg-hero-description">
             Turn your curiosity into real skills with a learning experience that feels like a game.
           </p>
 
-          {/* Mobile Number Input & Primary Game CTA */}
-          <form className="cg-cta-form" onSubmit={handleStart}>
-            <div className="cg-input-wrapper">
-              <div className="cg-country-badge">
-                <span className="cg-flag">🇮🇳</span>
-                <span className="cg-prefix">+91</span>
-                <svg className="cg-caret" width="10" height="6" viewBox="0 0 10 6" fill="none">
-                  <path d="M1 1L5 5L9 1" stroke="#94a3b8" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </div>
-              <input
-                type="tel"
-                className="cg-phone-input"
-                placeholder="Enter your mobile number"
-                value={mobileNumber}
-                onChange={(e) => setMobileNumber(e.target.value)}
-                maxLength={10}
-              />
-            </div>
-            
-            <button type="submit" className="cg-btn-game-cta">
-              <span className="cg-btn-label">Begin Your Journey</span>
+          {/* Primary Adventure Game CTA */}
+          <div className="cg-cta-container">
+            <button
+              type="button"
+              className="cg-btn-adventure-cta"
+              onClick={handleCtaClick}
+              id="begin-journey-btn"
+            >
+              <span className="cg-btn-text">Begin Your Journey</span>
               <span className="cg-btn-arrow">&rarr;</span>
-              <div className="cg-btn-glow-sheen"></div>
+              <div className="cg-btn-shimmer"></div>
             </button>
-          </form>
-
-          {/* Security & Access Information */}
-          <div className="cg-security-notice">
-            <div className="cg-sec-item">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-              </svg>
-              <span>Instant free access</span>
-            </div>
-            <span className="cg-sec-bullet">&bull;</span>
-            <div className="cg-sec-item">
-              <span>Zero spam, ever</span>
-            </div>
-            <span className="cg-sec-bullet">&bull;</span>
-            <div className="cg-sec-item">
-              <span>Built for college engineers</span>
-            </div>
+            {/* Sparkle Glint near the corner */}
+            <span className="cg-cta-sparkle" aria-hidden="true">&#x2728;</span>
           </div>
         </div>
 
-        {/* Right Column: Game World Centerpiece Showcase */}
-        <div className="cg-hero-right-visual">
-          <GameWorldCenterpiece />
+        {/* Center & Right Game World Overlays */}
+        <div className="cg-game-world-overlays" aria-hidden="true">
+          {/* Animated Glowing Portal Ring over Castle Archway */}
+          <div className="cg-world-portal-ring">
+            <div className="cg-portal-core"></div>
+            <div className="cg-portal-outer-ring"></div>
+            <div className="cg-portal-waves"></div>
+          </div>
+
+          {/* Floating Island Wooden Signs matching Reference */}
+          {/* 1. Python Island Sign */}
+          <div className="cg-world-sign cg-sign-python">
+            <div className="cg-wooden-plank">
+              <span className="cg-plank-text">PYTHON</span>
+            </div>
+          </div>
+
+          {/* 2. DSA Island Sign */}
+          <div className="cg-world-sign cg-sign-dsa">
+            <div className="cg-wooden-plank">
+              <span className="cg-plank-text">DSA</span>
+            </div>
+          </div>
+
+          {/* 3. Web Dev Island Sign */}
+          <div className="cg-world-sign cg-sign-webdev">
+            <div className="cg-wooden-plank">
+              <span className="cg-plank-text">WEB DEV</span>
+            </div>
+          </div>
+
+          {/* Ambient Magic Twinkles */}
+          <div className="cg-ambient-sparkle cg-sparkle-1">&#x2727;</div>
+          <div className="cg-ambient-sparkle cg-sparkle-2">&lt;/&gt;</div>
+          <div className="cg-ambient-sparkle cg-sparkle-3">&#x2726;</div>
         </div>
       </div>
     </section>

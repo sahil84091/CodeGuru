@@ -1,18 +1,21 @@
 import React from 'react'
-import logoTitle from '../../assets/codeguru_full_title.png'
+import logoImg from '../../assets/codeguru_logo_transparent.png'
 
-export default function Navbar() {
+export default function Navbar({ onOpenSignIn }) {
+  const handleSignInClick = (e) => {
+    e.preventDefault()
+    if (onOpenSignIn) {
+      onOpenSignIn()
+    }
+  }
+
   return (
     <header className="cg-navbar">
       <div className="cg-navbar-container">
-        {/* Brand Logo & Wordmark */}
+        {/* Brand Logo */}
         <a href="/" className="cg-brand">
-          <div className="cg-logo-3d-wrapper">
-            <img src={logoTitle} alt="CodeGuru" className="cg-logo-3d-img" />
-          </div>
-          <div className="cg-brand-badge-pill">
-            <span className="cg-brand-badge-dot"></span>
-            <span className="cg-brand-badge-text">PLAY • LEARN • LEVEL UP</span>
+          <div className="cg-logo-wrapper">
+            <img src={logoImg} alt="CodeGuru" className="cg-logo-img" />
           </div>
         </a>
 
@@ -24,7 +27,7 @@ export default function Navbar() {
           <a href="#practice" className="cg-nav-item">
             <span>Practice</span>
           </a>
-          <a href="#compete" className="cg-nav-item">
+          <a href="#compete" className="cg-nav-item cg-nav-item-compete">
             <span>Compete</span>
             <span className="cg-nav-badge-pvp">PvP</span>
           </a>
@@ -38,8 +41,24 @@ export default function Navbar() {
           <button
             type="button"
             className="cg-btn-signin"
-            onClick={() => alert('Sign In flow is reserved for the next phase!')}
+            onClick={handleSignInClick}
+            aria-label="Sign In"
+            id="nav-signin-btn"
           >
+            <svg
+              className="cg-signin-icon"
+              width="17"
+              height="17"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
             <span className="cg-signin-text">Sign In</span>
           </button>
         </div>

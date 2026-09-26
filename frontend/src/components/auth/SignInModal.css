@@ -1,0 +1,895 @@
+/* ==========================================================================
+   CodeGuru Game-Style Sign-In Modal Stylesheet
+   Theme: In-Game Cyber-Stone Modal (Viewport-Safe & Responsively Constrained)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. FIXED BACKDROP OVERLAY
+   -------------------------------------------------------------------------- */
+.cg-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: rgba(3, 7, 18, 0.74);
+  backdrop-filter: blur(9px);
+  -webkit-backdrop-filter: blur(9px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 36px 28px 34px 28px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  animation: backdropFadeIn 0.25s ease-out forwards;
+}
+
+/* --------------------------------------------------------------------------
+   2. MODAL CONTAINER (Constrained to Viewport)
+   -------------------------------------------------------------------------- */
+.cg-game-modal-container {
+  position: relative;
+  width: 100%;
+  max-width: 485px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  animation: modalPopIn 0.32s cubic-bezier(0.175, 0.885, 0.32, 1.2) forwards;
+}
+
+/* --------------------------------------------------------------------------
+   3. TOP CREST CODEGURU LOGO
+   -------------------------------------------------------------------------- */
+.cg-modal-logo-crest {
+  position: absolute;
+  top: -26px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 25;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.cg-modal-logo-img {
+  height: 58px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 5px 14px rgba(0, 0, 0, 0.75));
+  transition: transform 0.25s ease;
+}
+
+/* --------------------------------------------------------------------------
+   4. CIRCULAR RED 3D GAMING CLOSE BUTTON
+   -------------------------------------------------------------------------- */
+.cg-modal-close-btn {
+  position: absolute;
+  top: 6px;
+  right: -6px;
+  z-index: 30;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 50%, #991b1b 100%);
+  border: 2.5px solid #fecaca;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 
+    0 5px 15px rgba(220, 38, 38, 0.55),
+    inset 0 2px 3px rgba(255, 255, 255, 0.5);
+  transition: all 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cg-close-x {
+  color: #ffffff;
+  font-size: 1.15rem;
+  font-weight: 900;
+  line-height: 1;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.cg-modal-close-btn:hover {
+  transform: scale(1.1) rotate(90deg);
+  box-shadow: 
+    0 0 20px rgba(239, 68, 68, 0.85),
+    0 6px 16px rgba(0, 0, 0, 0.5);
+  border-color: #ffffff;
+}
+
+.cg-modal-close-btn:active {
+  transform: scale(0.95) rotate(90deg);
+}
+
+/* --------------------------------------------------------------------------
+   5. MAIN 3D BEVELED CYBER-STONE FRAME
+   -------------------------------------------------------------------------- */
+.cg-modal-frame {
+  position: relative;
+  background: linear-gradient(180deg, #1e293b 0%, #111c30 40%, #0a1120 100%);
+  border: 2.5px solid #334155;
+  border-radius: 26px;
+  padding: 8px;
+  box-shadow: 
+    0 20px 50px rgba(0, 0, 0, 0.85),
+    0 0 30px rgba(0, 229, 255, 0.16),
+    inset 0 2px 3px rgba(255, 255, 255, 0.15);
+  box-sizing: border-box;
+}
+
+/* Glowing Neon Cyan Frame Insets */
+.cg-frame-edge-glow-left {
+  position: absolute;
+  left: 5px;
+  top: 24%;
+  bottom: 24%;
+  width: 3.5px;
+  background: #00e5ff;
+  border-radius: 2px;
+  box-shadow: 0 0 10px #00e5ff;
+}
+
+.cg-frame-edge-glow-right {
+  position: absolute;
+  right: 5px;
+  top: 24%;
+  bottom: 24%;
+  width: 3.5px;
+  background: #00e5ff;
+  border-radius: 2px;
+  box-shadow: 0 0 10px #00e5ff;
+}
+
+/* Golden Beveled Inner Lip */
+.cg-modal-inner-lip {
+  background: linear-gradient(180deg, #f59e0b 0%, #d97706 60%, #b45309 100%);
+  border-radius: 19px;
+  padding: 3px;
+  box-shadow: 
+    0 0 10px rgba(245, 158, 11, 0.4),
+    inset 0 1px 2px rgba(255, 255, 255, 0.4);
+}
+
+/* Warm Light Panel Interior */
+.cg-modal-panel-content {
+  background: linear-gradient(180deg, #ffffff 0%, #fefcf8 50%, #f9f5eb 100%);
+  border-radius: 16px;
+  padding: 2.4rem 2.2rem 1.6rem 2.2rem;
+  box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+/* Custom Inner Scrollbar if triggered */
+.cg-modal-panel-content::-webkit-scrollbar {
+  width: 6px;
+}
+.cg-modal-panel-content::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 3px;
+}
+.cg-modal-panel-content::-webkit-scrollbar-thumb {
+  background: rgba(22, 139, 255, 0.35);
+  border-radius: 3px;
+}
+
+/* --------------------------------------------------------------------------
+   6. HEADER & TYPOGRAPHY
+   -------------------------------------------------------------------------- */
+.cg-modal-header {
+  margin-bottom: 1.25rem;
+}
+
+.cg-modal-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+}
+
+.cg-title-dot-decor {
+  color: #94a3b8;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+}
+
+.cg-modal-title {
+  font-family: var(--font-heading);
+  font-size: 2.15rem;
+  font-weight: 800;
+  color: #0c1938;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+}
+
+.cg-modal-subtitle {
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #475569;
+  margin-top: 0.25rem;
+}
+
+/* --------------------------------------------------------------------------
+   7. FORM INPUTS & VALIDATION
+   -------------------------------------------------------------------------- */
+.cg-signin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 0.95rem;
+}
+
+.cg-auth-input-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.cg-auth-input-field {
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.cg-auth-input-field:focus-within {
+  border-color: #38bdf8;
+  background: #ffffff;
+  box-shadow: 
+    0 0 0 3px rgba(56, 189, 248, 0.2),
+    inset 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.cg-auth-input-field.cg-input-error {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.16);
+}
+
+.cg-input-element {
+  width: 100%;
+  padding: 0.8rem 1.15rem;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #0f172a;
+  background: transparent;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.cg-input-element::placeholder {
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.cg-password-toggle-btn {
+  background: none;
+  border: none;
+  padding: 0.5rem 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s ease;
+}
+
+.cg-password-toggle-btn:hover {
+  opacity: 0.8;
+}
+
+.cg-input-error-msg {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  color: #dc2626;
+  font-weight: 600;
+  margin-top: 0.2rem;
+  padding-left: 0.35rem;
+}
+
+/* --------------------------------------------------------------------------
+   8. REMEMBER ME & FORGOT PASSWORD ROW
+   -------------------------------------------------------------------------- */
+.cg-form-options-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: -0.1rem;
+  margin-bottom: 0.25rem;
+  padding: 0 0.2rem;
+}
+
+.cg-remember-me-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.cg-checkbox-input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.cg-custom-checkbox {
+  width: 17px;
+  height: 17px;
+  border-radius: 4px;
+  border: 1.5px solid #cbd5e1;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.cg-checkbox-input:checked ~ .cg-custom-checkbox {
+  background: #168bff;
+  border-color: #168bff;
+  box-shadow: 0 0 6px rgba(22, 139, 255, 0.4);
+}
+
+.cg-checkbox-input:checked ~ .cg-custom-checkbox::after {
+  content: '';
+  width: 4px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  margin-bottom: 2px;
+}
+
+.cg-remember-text {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+.cg-forgot-password-link {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #168bff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cg-forgot-password-link:hover {
+  color: #0284c7;
+  text-decoration: underline;
+}
+
+/* --------------------------------------------------------------------------
+   9. PRIMARY SIGN IN BUTTON
+   -------------------------------------------------------------------------- */
+.cg-btn-signin-primary {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0.85rem 1.4rem;
+  border-radius: 13px;
+  background: linear-gradient(135deg, #00d2ff 0%, #168bff 55%, #0077b6 100%);
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  color: #ffffff;
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 800;
+  cursor: pointer;
+  overflow: hidden;
+  box-shadow: 
+    0 0 20px rgba(22, 139, 255, 0.6),
+    0 6px 18px rgba(0, 0, 0, 0.22);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cg-btn-signin-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 0 30px rgba(22, 139, 255, 0.8),
+    0 10px 22px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+.cg-btn-signin-primary:active {
+  transform: translateY(0);
+}
+
+.cg-btn-signin-text {
+  position: relative;
+  z-index: 2;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.cg-btn-signin-arrow {
+  position: relative;
+  z-index: 2;
+  font-size: 1.2rem;
+  transition: transform 0.22s ease;
+}
+
+.cg-btn-signin-primary:hover .cg-btn-signin-arrow {
+  transform: translateX(4px);
+}
+
+.cg-btn-signin-sheen {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.35) 50%,
+    transparent 100%
+  );
+  transform: skewX(-22deg);
+  animation: btnShimmer 3.5s infinite ease-in-out;
+}
+
+/* --------------------------------------------------------------------------
+   10. DIVIDER & SOCIAL BUTTONS
+   -------------------------------------------------------------------------- */
+.cg-modal-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 0.95rem;
+}
+
+.cg-divider-line {
+  flex: 1;
+  height: 1px;
+  background: #cbd5e1;
+}
+
+.cg-divider-text {
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #64748b;
+  letter-spacing: 1px;
+}
+
+/* Social Buttons Row (Circular Google & GitHub) */
+.cg-social-buttons-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.4rem;
+  margin-bottom: 1.1rem;
+}
+
+.cg-social-circle-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cg-social-google {
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+}
+
+.cg-social-google:hover {
+  transform: translateY(-2px) scale(1.08);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  border-color: #cbd5e1;
+}
+
+.cg-social-github {
+  background: #0f172a;
+  border: 1.5px solid #1e293b;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.3);
+}
+
+.cg-social-github:hover {
+  transform: translateY(-2px) scale(1.08);
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.45);
+  background: #1e293b;
+}
+
+/* Footer: Create Account Link */
+.cg-modal-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.cg-footer-question {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: #475569;
+  font-weight: 600;
+}
+
+.cg-link-create-account {
+  background: none;
+  border: none;
+  font-family: var(--font-heading);
+  font-size: 1.02rem;
+  font-weight: 800;
+  color: #168bff;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.cg-link-create-account:hover {
+  color: #0284c7;
+  text-shadow: 0 0 10px rgba(22, 139, 255, 0.35);
+  transform: translateX(2px);
+}
+
+/* --------------------------------------------------------------------------
+   11. 3D CODING & COMPANION OVERLAYS (Constrained to Modal Frame)
+   -------------------------------------------------------------------------- */
+/* Bottom Left 3D Terminal & Code Screen */
+.cg-decor-bottom-left {
+  position: absolute;
+  left: -52px;
+  bottom: -6px;
+  width: 135px;
+  z-index: 35;
+  pointer-events: none;
+  animation: decorFloatLeft 5s infinite ease-in-out;
+}
+
+.cg-decor-terminal-img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.65));
+}
+
+/* Bottom Right 3D Robot Companion */
+.cg-decor-bottom-right {
+  position: absolute;
+  right: -46px;
+  bottom: -4px;
+  width: 140px;
+  z-index: 35;
+  pointer-events: none;
+  animation: decorFloatRight 4.6s infinite ease-in-out 0.6s;
+}
+
+.cg-decor-robot-img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.65));
+}
+
+/* Side Floating Cyber Cubes */
+.cg-cyber-cube {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 3.5px;
+  pointer-events: none;
+  z-index: 15;
+}
+
+.cg-cube-left-1 {
+  left: -18px;
+  top: 36%;
+  background: #00e5ff;
+  box-shadow: 0 0 10px #00e5ff;
+  animation: cubeBob 3.8s infinite ease-in-out;
+}
+
+.cg-cube-left-2 {
+  left: -24px;
+  top: 56%;
+  width: 16px;
+  height: 16px;
+  background: #ffc400;
+  box-shadow: 0 0 12px #ffc400;
+  animation: cubeBob 4.4s infinite ease-in-out 0.8s;
+}
+
+.cg-cube-right-1 {
+  right: -18px;
+  top: 38%;
+  background: #ffc400;
+  box-shadow: 0 0 12px #ffc400;
+  animation: cubeBob 4.2s infinite ease-in-out 0.4s;
+}
+
+.cg-cube-right-2 {
+  right: -24px;
+  top: 60%;
+  width: 12px;
+  height: 12px;
+  background: #00e5ff;
+  box-shadow: 0 0 9px #00e5ff;
+  animation: cubeBob 3.5s infinite ease-in-out 1.2s;
+}
+
+/* --------------------------------------------------------------------------
+   12. KEYFRAME ANIMATIONS
+   -------------------------------------------------------------------------- */
+@keyframes backdropFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalPopIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.94) translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes btnShimmer {
+  0% {
+    left: -100%;
+  }
+  25%, 100% {
+    left: 200%;
+  }
+}
+
+@keyframes decorFloatLeft {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-6px) rotate(-1deg);
+  }
+}
+
+@keyframes decorFloatRight {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-6px) rotate(1deg);
+  }
+}
+
+@keyframes cubeBob {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-7px) rotate(12deg);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   13. VIEWPORT-SAFE SHORT HEIGHT & RESPONSIVE RULES
+   -------------------------------------------------------------------------- */
+/* Short Viewports (e.g. 700px - 780px like laptop / browser with toolbars) */
+@media (max-height: 780px) {
+  .cg-modal-backdrop {
+    padding: 24px 20px 22px 20px;
+  }
+
+  .cg-game-modal-container {
+    max-width: 460px;
+  }
+
+  .cg-modal-logo-crest {
+    top: -22px;
+  }
+
+  .cg-modal-logo-img {
+    height: 50px;
+  }
+
+  .cg-modal-panel-content {
+    padding: 2rem 1.8rem 1.4rem 1.8rem;
+    max-height: calc(100vh - 90px);
+  }
+
+  .cg-modal-title {
+    font-size: 1.95rem;
+  }
+
+  .cg-modal-subtitle {
+    font-size: 0.88rem;
+  }
+
+  .cg-input-element {
+    padding: 0.72rem 1rem;
+    font-size: 0.92rem;
+  }
+
+  .cg-btn-signin-primary {
+    padding: 0.78rem 1.2rem;
+    font-size: 1.05rem;
+  }
+
+  .cg-social-circle-btn {
+    width: 44px;
+    height: 44px;
+  }
+
+  .cg-decor-bottom-left {
+    left: -40px;
+    width: 115px;
+    bottom: -4px;
+  }
+
+  .cg-decor-bottom-right {
+    right: -36px;
+    width: 120px;
+    bottom: -2px;
+  }
+}
+
+/* Very Short Viewports (e.g. < 640px) */
+@media (max-height: 640px) {
+  .cg-modal-backdrop {
+    padding: 14px 12px;
+  }
+
+  .cg-modal-logo-img {
+    height: 40px;
+  }
+
+  .cg-modal-logo-crest {
+    top: -16px;
+  }
+
+  .cg-modal-panel-content {
+    padding: 1.35rem 1.4rem 0.8rem 1.4rem;
+    max-height: calc(100vh - 48px);
+  }
+
+  .cg-modal-header {
+    margin-bottom: 0.5rem;
+  }
+
+  .cg-modal-title {
+    font-size: 1.65rem;
+  }
+
+  .cg-modal-subtitle {
+    font-size: 0.82rem;
+  }
+
+  .cg-signin-form {
+    gap: 0.45rem;
+    margin-bottom: 0.45rem;
+  }
+
+  .cg-input-element {
+    padding: 0.62rem 0.95rem;
+    font-size: 0.9rem;
+  }
+
+  .cg-btn-signin-primary {
+    padding: 0.68rem 1.1rem;
+    font-size: 0.98rem;
+  }
+
+  .cg-modal-divider {
+    margin-bottom: 0.45rem;
+  }
+
+  .cg-social-buttons-row {
+    margin-bottom: 0.55rem;
+    gap: 1rem;
+  }
+
+  .cg-social-circle-btn {
+    width: 38px;
+    height: 38px;
+  }
+
+  .cg-decor-bottom-left,
+  .cg-decor-bottom-right {
+    width: 90px;
+    bottom: -2px;
+  }
+}
+
+/* Tablet Screens (max-width: 768px) */
+@media (max-width: 768px) {
+  .cg-game-modal-container {
+    max-width: 430px;
+  }
+
+  .cg-modal-panel-content {
+    padding: 2.2rem 1.6rem 1.5rem 1.6rem;
+  }
+
+  .cg-modal-title {
+    font-size: 1.95rem;
+  }
+
+  .cg-decor-bottom-left {
+    left: -32px;
+    width: 105px;
+    bottom: -2px;
+  }
+
+  .cg-decor-bottom-right {
+    right: -28px;
+    width: 110px;
+    bottom: 0px;
+  }
+
+  .cg-modal-close-btn {
+    right: -4px;
+    top: 4px;
+    width: 38px;
+    height: 38px;
+  }
+}
+
+/* Mobile Screens (max-width: 520px) */
+@media (max-width: 520px) {
+  .cg-modal-backdrop {
+    padding: 20px 14px;
+  }
+
+  .cg-game-modal-container {
+    max-width: 100%;
+  }
+
+  .cg-decor-bottom-left,
+  .cg-decor-bottom-right,
+  .cg-cyber-cube {
+    display: none; /* Hide external side decor to prevent horizontal clipping on mobile */
+  }
+
+  .cg-modal-panel-content {
+    padding: 2.2rem 1.2rem 1.4rem 1.2rem;
+  }
+
+  .cg-modal-title {
+    font-size: 1.8rem;
+  }
+
+  .cg-btn-signin-primary {
+    font-size: 1.02rem;
+    padding: 0.8rem 1.1rem;
+  }
+}
