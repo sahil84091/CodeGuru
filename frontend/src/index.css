@@ -1,103 +1,108 @@
+@import "tailwindcss";
+
+@theme {
+  --color-base: #060807;
+  --color-base-dark: #040504;
+  --color-surface: #0D1310;
+  --color-surface-hover: #131C18;
+  --color-surface-active: #19241F;
+  --color-surface-border: #1A2820;
+  --color-surface-border-subtle: #131E18;
+  --color-surface-border-hover: #283D31;
+
+  --color-primary: #00FF66;
+  --color-primary-hover: #33FF85;
+  --color-primary-dark: #00CC52;
+  --color-primary-muted: rgba(0, 255, 102, 0.1);
+  --color-primary-glow: rgba(0, 255, 102, 0.25);
+
+  --color-accent-cyan: #38BDF8;
+  --color-accent-amber: #F59E0B;
+  --color-accent-purple: #A855F7;
+  --color-accent-red: #EF4444;
+
+  --font-sans: 'Plus Jakarta Sans', 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-heading: 'Outfit', sans-serif;
+  --font-mono: 'Fira Code', 'JetBrains Mono', ui-monospace, monospace;
+}
+
 :root {
-  /* ==========================================================================
-     CodeGuru Design System - Fantasy Adventure & Cyber Gaming Palette
-     ========================================================================== */
-
-  /* Game Realm Environment Colors */
-  --sky-blue-top: #1e3a8a;
-  --sky-blue-mid: #0284c7;
-  --sky-blue-bright: #38bdf8;
-  --sky-blue-light: #bae6fd;
-  --cloud-white: #ffffff;
-  --mountain-deep: #0f172a;
-  --forest-green: #065f46;
-  --emerald-bright: #10b981;
-  --cyan-bright: #06b6d4;
-
-  /* CodeGuru Accents */
-  --accent-green: #10b981;
-  --accent-green-bright: #34d399;
-  --accent-green-glow: rgba(16, 185, 129, 0.45);
-  --accent-cyan: #06b6d4;
-  --accent-cyan-glow: rgba(6, 182, 212, 0.4);
-  --accent-gold: #f59e0b;
-  --accent-gold-bright: #fbbf24;
-  --accent-gold-glow: rgba(245, 158, 11, 0.4);
-  --accent-wood: #854d0e;
-  --accent-wood-light: #b45309;
-
-  /* Dark Translucent HUD UI Tokens */
-  --hud-bg-glass: rgba(9, 14, 26, 0.78);
-  --hud-bg-glass-card: rgba(13, 20, 36, 0.82);
-  --hud-bg-glass-hover: rgba(20, 30, 52, 0.92);
-  --hud-border-subtle: rgba(255, 255, 255, 0.12);
-  --hud-border-accent: rgba(16, 185, 129, 0.4);
-  --hud-border-cyan: rgba(6, 182, 212, 0.4);
-  --hud-border-gold: rgba(245, 158, 11, 0.4);
-
-  /* Typography */
-  --text-primary: #ffffff;
-  --text-secondary: #e2e8f0;
-  --text-muted: #94a3b8;
-  --text-subtle: #64748b;
-  --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono: 'Fira Code', ui-monospace, SFMono-Regular, monospace;
-
-  /* Lighting & Shadows */
-  --glow-green-sm: 0 0 15px rgba(16, 185, 129, 0.35);
-  --glow-green-lg: 0 0 30px rgba(16, 185, 129, 0.5), 0 0 60px rgba(6, 182, 212, 0.25);
-  --glow-gold-sm: 0 0 16px rgba(245, 158, 11, 0.4);
-  --shadow-hud: 0 16px 40px -8px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.08);
+  color-scheme: dark;
+  --bg-base: #060807;
+  --color-primary: #00FF66;
 }
 
 * {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+}
+
+button:not(:disabled),
+[role="button"] {
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
 }
 
 html, body {
-  width: 100%;
-  min-height: 100%;
-  background-color: #070a12;
-  color: var(--text-primary);
-  font-family: var(--font-body);
-  font-size: 16px;
-  line-height: 1.6;
+  background-color: #060807;
+  color: #E5E7EB;
+  font-family: var(--font-sans);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#root {
-  width: 100%;
-  min-height: 100vh;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Custom Scrollbar */
+/* Custom Scrollbars */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
+  height: 6px;
 }
-
 ::-webkit-scrollbar-track {
-  background: #070a12;
+  background: #060807;
 }
-
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 4px;
+  background: #1A2820;
+  border-radius: 9999px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--accent-green);
+  background: #283D31;
 }
 
-::selection {
-  background: rgba(16, 185, 129, 0.4);
-  color: #ffffff;
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Subtle glow effects */
+.glow-primary-sm {
+  box-shadow: 0 0 16px rgba(0, 255, 102, 0.2);
+}
+.glow-primary-md {
+  box-shadow: 0 0 24px rgba(0, 255, 102, 0.35);
+}
+.glow-primary-lg {
+  box-shadow: 0 0 40px rgba(0, 255, 102, 0.45);
+}
+.text-glow-primary {
+  text-shadow: 0 0 12px rgba(0, 255, 102, 0.5);
+}
+
+/* Grid background utility */
+.bg-grid-pattern {
+  background-size: 32px 32px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
 }

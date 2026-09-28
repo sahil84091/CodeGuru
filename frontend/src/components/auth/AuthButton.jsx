@@ -1,4 +1,3 @@
-import React from 'react'
 
 export default function AuthButton({ provider, label, onClick, variant = 'light' }) {
   const renderIcon = () => {

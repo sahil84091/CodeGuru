@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Navbar from './Navbar'
 import HeroSection from './HeroSection'
 import FeatureStrip from './FeatureStrip'
@@ -13,14 +13,6 @@ export default function LandingPage({
 }) {
   const [isSignInOpen, setIsSignInOpen] = useState(initialSignInOpen)
   const [isCreateAccountOpen, setIsCreateAccountOpen] = useState(initialCreateAccountOpen)
-
-  useEffect(() => {
-    setIsSignInOpen(initialSignInOpen)
-  }, [initialSignInOpen])
-
-  useEffect(() => {
-    setIsCreateAccountOpen(initialCreateAccountOpen)
-  }, [initialCreateAccountOpen])
 
   const handleOpenSignIn = () => {
     setIsCreateAccountOpen(false)

@@ -1,4 +1,3 @@
-import React from 'react'
 import logoImg from '../../assets/codeguru_logo_transparent.png'
 
 export default function Navbar({ onOpenSignIn }) {

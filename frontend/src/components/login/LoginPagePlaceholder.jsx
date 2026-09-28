@@ -1,4 +1,3 @@
-import React from 'react'
 import logo from '../../assets/codeguru_logo_transparent.png'
 
 export default function LoginPagePlaceholder({ onNavigate }) {

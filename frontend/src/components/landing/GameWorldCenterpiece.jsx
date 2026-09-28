@@ -1,4 +1,3 @@
-import React from 'react'
 import worldArt from '../../assets/clean_adventure_world.jpg'
 
 export default function GameWorldCenterpiece() {
