@@ -1,0 +1,446 @@
+/* ═══════════════════════════════════════════════════════════════════
+ * LoginPage3D.css — Styles for the immersive 3D login experience.
+ *
+ * Design tokens reference the project's index.css (--color-primary,
+ * --font-sans, --font-heading, --font-mono).
+ * ═══════════════════════════════════════════════════════════════════ */
+
+/* ── Page Shell ───────────────────────────────────────────────────── */
+.login3d-page {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow: hidden;
+  background: #020504;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Ambient Gradient Backdrop — warm accretion disk ambience ─────── */
+.login3d-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 55% 45% at 50% 46%, rgba(245, 158, 11, 0.06), transparent 55%),
+    radial-gradient(ellipse 70% 60% at 48% 50%, rgba(0, 255, 102, 0.05), transparent 50%),
+    radial-gradient(ellipse 45% 50% at 30% 65%, rgba(56, 189, 248, 0.03), transparent 50%),
+    radial-gradient(ellipse 35% 40% at 75% 30%, rgba(168, 85, 247, 0.025), transparent 45%);
+  pointer-events: none;
+}
+
+/* ── Grid Overlay ─────────────────────────────────────────────────── */
+.login3d-grid {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-size: 48px 48px;
+  background-image:
+    linear-gradient(to right, rgba(0, 255, 102, 0.018) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 255, 102, 0.018) 1px, transparent 1px);
+  mask-image: radial-gradient(ellipse 60% 50% at 50% 50%, black, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse 60% 50% at 50% 50%, black, transparent 80%);
+}
+
+/* ── Main Content Container ───────────────────────────────────────── */
+.login3d-content {
+  position: relative;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  gap: 2rem;
+  width: 100%;
+  max-width: 1360px;
+  padding: 2rem 1.5rem;
+}
+@media (min-width: 960px) {
+  .login3d-content {
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    padding: 2rem 3rem;
+  }
+}
+
+/* ── Left Panel (Hero Text) ───────────────────────────────────────── */
+.login3d-hero {
+  max-width: 560px;
+}
+
+.login3d-hero-tagline {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: rgba(148, 163, 184, 0.8);
+  margin-bottom: 1.5rem;
+}
+.login3d-hero-tagline::after {
+  content: '';
+  display: inline-block;
+  width: 2.5rem;
+  height: 2px;
+  background: #00ff66;
+  border-radius: 1px;
+}
+
+.login3d-hero h1 {
+  font-family: var(--font-heading, 'Outfit', sans-serif);
+  font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+  font-weight: 800;
+  line-height: 1.06;
+  letter-spacing: -0.025em;
+  color: #fff;
+  margin: 0 0 1rem;
+}
+.login3d-hero h1 .accent {
+  color: #00ff66;
+  text-shadow: 0 0 28px rgba(0, 255, 102, 0.35);
+}
+
+.login3d-hero-sub {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: rgba(226, 232, 240, 0.9);
+  margin-bottom: 0.25rem;
+}
+
+.login3d-hero-desc {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: rgba(148, 163, 184, 0.75);
+  max-width: 440px;
+}
+
+/* ── Right Panel (3D Card with Perspective) ───────────────────────── */
+.login3d-card-perspective {
+  perspective: 1200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login3d-card {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  padding: 2.5rem 2.2rem 2rem;
+  border-radius: 1.5rem;
+  transform-style: preserve-3d;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Glassmorphism */
+  background: linear-gradient(
+    145deg,
+    rgba(13, 19, 16, 0.78),
+    rgba(6, 8, 7, 0.88) 50%,
+    rgba(0, 255, 102, 0.03) 100%
+  );
+  border: 1px solid rgba(0, 255, 102, 0.12);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.03) inset,
+    0 24px 48px -12px rgba(0, 0, 0, 0.6),
+    0 0 80px -20px rgba(0, 255, 102, 0.15);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* Floating inner elements (translateZ for 3D depth) */
+.login3d-card-inner {
+  transform: translateZ(30px);
+}
+
+/* ── Card Header ──────────────────────────────────────────────────── */
+.login3d-card-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #00ff66;
+  background: rgba(0, 255, 102, 0.08);
+  border: 1px solid rgba(0, 255, 102, 0.18);
+  margin-bottom: 1.25rem;
+}
+
+.login3d-card-title {
+  font-family: var(--font-heading, 'Outfit', sans-serif);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 0.35rem;
+}
+
+.login3d-card-subtitle {
+  font-size: 0.85rem;
+  color: rgba(148, 163, 184, 0.7);
+  margin-bottom: 1.5rem;
+}
+
+/* ── Phone Input ──────────────────────────────────────────────────── */
+.login3d-phone-label {
+  display: flex;
+  align-items: center;
+  height: 3.5rem;
+  border-radius: 0.8rem;
+  border: 1px solid rgba(100, 116, 139, 0.35);
+  background: rgba(6, 8, 7, 0.7);
+  padding: 0 1.25rem;
+  transition: border-color 0.25s ease;
+}
+.login3d-phone-label:focus-within {
+  border-color: #00ff66;
+  box-shadow: 0 0 0 3px rgba(0, 255, 102, 0.08);
+}
+
+.login3d-phone-prefix {
+  font-weight: 700;
+  color: #fff;
+  padding-right: 1rem;
+  border-right: 1px solid rgba(100, 116, 139, 0.3);
+  font-size: 0.9rem;
+  user-select: none;
+}
+
+.login3d-phone-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-size: 1rem;
+  padding-left: 1rem;
+  letter-spacing: 0.05em;
+  font-family: var(--font-mono, monospace);
+}
+.login3d-phone-input::placeholder {
+  color: rgba(100, 116, 139, 0.5);
+  font-family: var(--font-sans, sans-serif);
+  letter-spacing: 0;
+}
+.login3d-phone-input:disabled {
+  opacity: 0.5;
+}
+
+/* ── Submit Button ────────────────────────────────────────────────── */
+.login3d-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  width: 100%;
+  height: 3.2rem;
+  margin-top: 1rem;
+  border: none;
+  border-radius: 0.8rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  color: #040d07;
+  background: linear-gradient(135deg, #00e55c, #00ff66);
+  box-shadow:
+    0 8px 24px rgba(0, 255, 102, 0.2),
+    0 0 0 0 rgba(0, 255, 102, 0);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.login3d-submit::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+.login3d-submit:not(:disabled):hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 12px 32px rgba(0, 255, 102, 0.32),
+    0 0 20px rgba(0, 255, 102, 0.15);
+}
+.login3d-submit:not(:disabled):hover::before {
+  left: 100%;
+}
+.login3d-submit:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+/* ── Social Auth Divider ──────────────────────────────────────────── */
+.login3d-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1.4rem 0;
+  color: rgba(100, 116, 139, 0.5);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.login3d-divider::before,
+.login3d-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(100, 116, 139, 0.25), transparent);
+}
+
+/* ── Social Buttons ───────────────────────────────────────────────── */
+.login3d-social-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.login3d-social-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 2.8rem;
+  border-radius: 0.7rem;
+  border: 1px solid rgba(100, 116, 139, 0.22);
+  background: rgba(13, 19, 16, 0.5);
+  color: rgba(226, 232, 240, 0.85);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+.login3d-social-btn:hover {
+  border-color: rgba(0, 255, 102, 0.3);
+  background: rgba(0, 255, 102, 0.04);
+  color: #fff;
+  transform: translateY(-1px);
+}
+.login3d-social-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ── Footer Note ──────────────────────────────────────────────────── */
+.login3d-secure-note {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 1.15rem;
+  font-size: 0.78rem;
+  color: rgba(100, 116, 139, 0.55);
+}
+.login3d-secure-note svg {
+  flex-shrink: 0;
+}
+
+/* ── Activation Overlay ───────────────────────────────────────────── */
+.login3d-activation-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 60% 55% at 50% 50%,
+    rgba(0, 255, 102, 0.35),
+    rgba(0, 229, 92, 0.12) 30%,
+    rgba(3, 10, 7, 0.96) 72%
+  );
+}
+
+/* ── Floating Particles (CSS-only ambient particles) ──────────────── */
+.login3d-particles {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.login3d-particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #00ff66;
+  opacity: 0;
+  animation: login3d-float 8s infinite ease-in-out;
+}
+.login3d-particle:nth-child(2n) {
+  background: #38bdf8;
+  animation-duration: 10s;
+}
+.login3d-particle:nth-child(3n) {
+  background: #a855f7;
+  animation-duration: 12s;
+}
+.login3d-particle:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; }
+.login3d-particle:nth-child(2) { left: 85%; top: 15%; animation-delay: 1.2s; }
+.login3d-particle:nth-child(3) { left: 25%; top: 75%; animation-delay: 2.5s; }
+.login3d-particle:nth-child(4) { left: 70%; top: 65%; animation-delay: 0.8s; }
+.login3d-particle:nth-child(5) { left: 50%; top: 10%; animation-delay: 3.1s; }
+.login3d-particle:nth-child(6) { left: 90%; top: 80%; animation-delay: 1.7s; }
+.login3d-particle:nth-child(7) { left: 15%; top: 50%; animation-delay: 4.2s; }
+.login3d-particle:nth-child(8) { left: 60%; top: 35%; animation-delay: 2.0s; }
+
+@keyframes login3d-float {
+  0%, 100% {
+    opacity: 0;
+    transform: translateY(0) scale(0.5);
+  }
+  20% {
+    opacity: 0.6;
+    transform: translateY(-20px) scale(1);
+  }
+  80% {
+    opacity: 0.3;
+    transform: translateY(-60px) scale(0.8);
+  }
+}
+
+/* ── Header ───────────────────────────────────────────────────────── */
+.login3d-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+@media (min-width: 768px) {
+  .login3d-header {
+    padding: 1.25rem 2.5rem;
+  }
+}
+
+/* ── Responsive: Mobile Adjustments ───────────────────────────────── */
+@media (max-width: 959px) {
+  .login3d-hero {
+    text-align: center;
+    margin: 0 auto;
+    padding-top: 5rem;
+  }
+  .login3d-hero-desc {
+    margin: 0 auto 1rem;
+  }
+  .login3d-hero-tagline {
+    justify-content: center;
+  }
+  .login3d-card-perspective {
+    margin-bottom: 2rem;
+  }
+}
