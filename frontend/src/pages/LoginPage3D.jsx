@@ -2,7 +2,9 @@ import { useRef, useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'motion/react'
 import { animate, svg } from 'animejs'
-import { ArrowDown, ArrowRight, LockKeyhole, Shield } from 'lucide-react'
+import Lenis from 'lenis'
+import 'lenis/dist/lenis.css'
+import { ArrowDown, ArrowRight, LockKeyhole, Shield, ChevronUp } from 'lucide-react'
 import CodeGuruLogo from '../components/codeguru/CodeGuruLogo'
 import LoginScene3D from '../components/login/LoginScene3D'
 import { useCodeGuruStore } from '../store/useCodeGuruStore'
@@ -87,6 +89,14 @@ function useCardTilt(cardRef) {
   return { transform, handleMouseMove, handleMouseLeave }
 }
 
+const SECTIONS = [
+  { id: 'login', label: 'Start' },
+  { id: 'learn-by-doing', label: '01 Learn' },
+  { id: 'practice-by-playing', label: '02 Practice' },
+  { id: 'progress-that-means-something', label: '03 Grow' },
+  { id: 'portal-access', label: 'Portal' },
+]
+
 /* ═══════════════════════════════════════════════════════════════════
  * LoginPage3D — Immersive 3D Login Page for CodeGuru
  * ═══════════════════════════════════════════════════════════════════ */
@@ -97,14 +107,73 @@ export default function LoginPage3D() {
   const cardRef = useRef(null)
   const journeyRef = useRef(null)
   const orbitRef = useRef({ value: 0 })
+  const lenisRef = useRef(null)
+  const [activeSectionId, setActiveSectionId] = useState('login')
   const [isActivating, setIsActivating] = useState(false)
+  const [showScrollTop, setShowScrollTop] = useState(false)
 
   const { transform, handleMouseMove, handleMouseLeave } = useCardTilt(cardRef)
 
-  // Keep the long-form login story moving section by section, even on fast wheel flicks.
+  // ── Smooth Scrolling Engine (Lenis) ──────────────────────────────
   useEffect(() => {
     document.documentElement.classList.add('login-scroll-story')
-    return () => document.documentElement.classList.remove('login-scroll-story')
+
+    const lenis = new Lenis({
+      duration: 1.25,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      syncTouch: false,
+      touchMultiplier: 1.6,
+      wheelMultiplier: 1.0,
+      autoResize: true,
+    })
+    lenisRef.current = lenis
+
+    let rafId = null
+    const raf = (time) => {
+      lenis.raf(time)
+      rafId = requestAnimationFrame(raf)
+    }
+    rafId = requestAnimationFrame(raf)
+
+    // Handle scroll progress and scroll-top visibility
+    const handleScroll = (e) => {
+      const scrollY = e.scroll || window.scrollY || 0
+      setShowScrollTop(scrollY > 400)
+
+      // Determine active section based on scroll offset
+      const sectionElements = SECTIONS.map(s => document.getElementById(s.id)).filter(Boolean)
+      const currentScroll = scrollY + window.innerHeight * 0.35
+      for (let i = sectionElements.length - 1; i >= 0; i--) {
+        const el = sectionElements[i]
+        if (el.offsetTop <= currentScroll) {
+          setActiveSectionId(SECTIONS[i].id)
+          break
+        }
+      }
+    }
+    lenis.on('scroll', handleScroll)
+
+    return () => {
+      document.documentElement.classList.remove('login-scroll-story')
+      if (rafId) cancelAnimationFrame(rafId)
+      lenis.destroy()
+      lenisRef.current = null
+    }
+  }, [])
+
+  // Smooth scroll helper for programmatic / link clicks
+  const scrollToTarget = useCallback((target) => {
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(target, {
+        duration: 1.4,
+        offset: 0,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      })
+    } else {
+      const el = typeof target === 'string' ? document.querySelector(target) : target
+      el?.scrollIntoView({ behavior: 'smooth' })
+    }
   }, [])
 
   // Navigate after activation animation completes
@@ -131,9 +200,7 @@ export default function LoginPage3D() {
   }
 
   const loginPanel = (
-    <div
-      className="login3d-card-perspective"
-    >
+    <div className="login3d-card-perspective">
       <div
         ref={cardRef}
         className="login3d-card"
@@ -203,6 +270,26 @@ export default function LoginPage3D() {
         ))}
       </div>
 
+      {/* ── Side Navigation Rail (Smooth Section Indicators) ─── */}
+      <nav className="login3d-nav-rail" aria-label="Story navigation">
+        {SECTIONS.map((sec) => {
+          const isActive = activeSectionId === sec.id
+          return (
+            <button
+              key={sec.id}
+              type="button"
+              className={`login3d-nav-dot ${isActive ? 'is-active' : ''}`}
+              onClick={() => scrollToTarget(`#${sec.id}`)}
+              aria-label={`Jump to ${sec.label}`}
+              title={sec.label}
+            >
+              <span className="login3d-nav-label">{sec.label}</span>
+              <span className="login3d-nav-bullet" />
+            </button>
+          )
+        })}
+      </nav>
+
       {/* ── Header ─── */}
       <header className="login3d-header">
         <div className="login3d-brand-wrap">
@@ -243,16 +330,40 @@ export default function LoginPage3D() {
             missions, challenges, XP, achievements, and an epic leaderboard
             await your arrival.
           </p>
-          <a className="login3d-hero-continue" href="#learn-by-doing">Explore the journey <ArrowDown size={15} /></a>
+          <button
+            type="button"
+            className="login3d-hero-continue"
+            onClick={() => scrollToTarget('#learn-by-doing')}
+          >
+            Explore the journey <ArrowDown size={15} />
+          </button>
         </motion.section>
-
       </main>
 
       <LoginStory
         journeyRef={journeyRef}
         orbitRef={orbitRef}
         loginPanel={loginPanel}
+        scrollToTarget={scrollToTarget}
       />
+
+      {/* ── Floating Scroll-To-Top Button ─── */}
+      <AnimatePresence>
+        {showScrollTop && (
+          <motion.button
+            type="button"
+            className="login3d-back-to-top"
+            onClick={() => scrollToTarget('#login')}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            transition={{ duration: 0.25 }}
+            aria-label="Back to top"
+          >
+            <ChevronUp size={18} />
+          </motion.button>
+        )}
+      </AnimatePresence>
 
       {/* ── Activation Flash Overlay ─── */}
       <AnimatePresence>

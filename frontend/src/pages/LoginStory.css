@@ -14,10 +14,25 @@
   display: flex;
   align-items: center;
   gap: .7rem;
-  color: rgba(190, 210, 207, .58);
+  color: rgba(190, 210, 207, .65);
   font: 600 .62rem/1 var(--font-mono, monospace);
   letter-spacing: .18em;
   transform: translateX(-50%);
+  background: rgba(4, 20, 18, 0.55);
+  border: 1px solid rgba(56, 232, 190, 0.2);
+  border-radius: 9999px;
+  padding: 0.5rem 1.1rem;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.story-scroll-cue:hover {
+  color: #38e8be;
+  border-color: rgba(56, 232, 190, 0.45);
+  background: rgba(56, 232, 190, 0.12);
+  box-shadow: 0 0 16px rgba(56, 232, 190, 0.18);
+  transform: translateX(-50%) translateY(-2px);
 }
 .story-scroll-cue svg { color: #38e8be; }
 

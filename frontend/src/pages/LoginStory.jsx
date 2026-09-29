@@ -86,7 +86,7 @@ function StoryVisual({ type }) {
   return <ProgressVisual />
 }
 
-export default function LoginStory({ journeyRef, orbitRef, loginPanel }) {
+export default function LoginStory({ journeyRef, orbitRef, loginPanel, scrollToTarget }) {
   const storyRef = useRef(null)
 
   useEffect(() => {
@@ -171,7 +171,14 @@ export default function LoginStory({ journeyRef, orbitRef, loginPanel }) {
 
   return (
     <div className="login-story" ref={storyRef}>
-      <div className="story-scroll-cue" aria-hidden="true"><span>SCROLL TO EXPLORE</span><ArrowDown size={15} /></div>
+      <button
+        type="button"
+        className="story-scroll-cue"
+        onClick={() => scrollToTarget ? scrollToTarget('#learn-by-doing') : null}
+      >
+        <span>SCROLL TO EXPLORE</span>
+        <ArrowDown size={15} />
+      </button>
 
       {story.map(({ id, index, title, copy, points, icon: Icon, visual }, i) => (
         <section key={id} id={id} className={`story-section story-section-${i + 1}`} data-story-section>
@@ -187,7 +194,7 @@ export default function LoginStory({ journeyRef, orbitRef, loginPanel }) {
         </section>
       ))}
 
-      <section className="story-finale" data-story-section>
+      <section className="story-finale" id="portal-access" data-story-section>
         <div className="story-finale-layout">
           <div className="story-finale-copy">
             <div className="story-finale-mark" data-story-item><Target size={19} /><span>YOUR NEXT STEP STARTS HERE</span></div>
