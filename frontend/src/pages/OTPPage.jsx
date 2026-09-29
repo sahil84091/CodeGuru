@@ -335,59 +335,18 @@ export default function OTPPage() {
             </svg>
           </div>
 
-          {/* 1. CodeGuru Logo Area: Framed Fantasy Game Badge */}
+          {/* 1. CodeGuru Logo Area: Clean Modern Game Panel */}
           <div className="hidden md:flex flex-col mb-4">
-            <div className="otp-sidebar-logo-badge relative w-full h-[54px] flex items-center px-3.5 group">
-              <svg className="absolute inset-0 w-full h-full pointer-events-none overflow-visible" viewBox="0 0 230 54" preserveAspectRatio="none" aria-hidden="true">
-                <defs>
-                  <linearGradient id="logo-badge-gold" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stopColor="#f3d489" />
-                    <stop offset="30%" stopColor="#c5a059" />
-                    <stop offset="70%" stopColor="#8c6a2c" />
-                    <stop offset="100%" stopColor="#d4b067" />
-                  </linearGradient>
-                </defs>
-                {/* Translucent Dark Emerald Panel Fill */}
-                <polygon
-                  points="14,4 216,4 226,14 226,40 216,50 14,50 4,40 4,14"
-                  fill="rgba(4, 18, 13, 0.92)"
-                />
-                {/* Outer Antique Gold Metallic Beveled Border */}
-                <polygon
-                  points="14,4 216,4 226,14 226,40 216,50 14,50 4,40 4,14"
-                  fill="none"
-                  stroke="url(#logo-badge-gold)"
-                  strokeWidth="1.5"
-                />
-                {/* Inner Parallel Emerald Stroke */}
-                <polygon
-                  points="16,7 214,7 223,16 223,38 214,47 16,47 7,38 7,16"
-                  fill="none"
-                  stroke="#00ff88"
-                  strokeWidth="0.8"
-                  strokeOpacity="0.55"
-                />
-                {/* Top Center Diamond Ornament */}
-                <polygon points="115,0 119,4 115,8 111,4" fill="#00ffcc" stroke="url(#logo-badge-gold)" strokeWidth="0.8" />
-                {/* Bottom Center Diamond Ornament */}
-                <polygon points="115,46 119,50 115,54 111,50" fill="#00ffcc" stroke="url(#logo-badge-gold)" strokeWidth="0.8" />
-                {/* Left Notch */}
-                <polygon points="0,27 4,23 8,27 4,31" fill="#00ffcc" stroke="url(#logo-badge-gold)" strokeWidth="0.8" />
-                {/* Right Notch */}
-                <polygon points="222,27 226,23 230,27 226,31" fill="#00ffcc" stroke="url(#logo-badge-gold)" strokeWidth="0.8" />
-              </svg>
-
-              <div className="relative z-10 flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-[#051e14] border border-[#00ff88]/60 flex items-center justify-center shadow-[0_0_12px_rgba(0,255,136,0.35)]">
-                  <GraduationCap className="w-5 h-5 text-[#00ff88]" />
-                </div>
-                <span className="font-heading font-extrabold text-xl tracking-tight text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-                  Code<span className="text-[#00ff88]">Guru</span>
-                </span>
+            <div className="otp-sidebar-logo-card flex items-center gap-3 w-full px-3.5 py-2.5 rounded-xl select-none group">
+              <div className="w-8 h-8 rounded-lg bg-[#062016]/90 border border-emerald-500/40 flex items-center justify-center shrink-0 shadow-[0_0_10px_rgba(0,255,136,0.2)]">
+                <GraduationCap className="w-5 h-5 text-[#00ff88]" />
               </div>
+              <span className="font-heading font-extrabold text-xl tracking-tight text-white leading-tight">
+                Code<span className="text-[#00ff88]">Guru</span>
+              </span>
             </div>
 
-            {/* 2. Fantasy HUD Back Button */}
+            {/* 2. Modern Clean Back Button */}
             <button
               type="button"
               onClick={() => {
@@ -397,36 +356,14 @@ export default function OTPPage() {
                   navigate('/login')
                 }
               }}
-              className="otp-sidebar-back-btn relative mt-3 h-8 w-24 px-3 flex items-center gap-2 text-xs font-semibold tracking-wide text-neutral-200 transition-all hover:text-white group cursor-pointer"
+              className="otp-sidebar-back-btn mt-2.5 inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium text-neutral-300 transition-all hover:text-white group cursor-pointer w-fit"
               aria-label="Go back to previous page"
             >
-              <svg className="absolute inset-0 w-full h-full pointer-events-none overflow-visible" viewBox="0 0 96 32" preserveAspectRatio="none" aria-hidden="true">
-                <defs>
-                  <linearGradient id="back-btn-gold" x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0%" stopColor="#c5a059" />
-                    <stop offset="100%" stopColor="#8c6a2c" />
-                  </linearGradient>
-                </defs>
-                <polygon
-                  points="6,2 84,2 94,16 84,30 6,30 2,16"
-                  fill="rgba(4, 16, 12, 0.9)"
-                  stroke="url(#back-btn-gold)"
-                  strokeWidth="1.2"
-                  className="transition-colors group-hover:stroke-[#00ff88]"
-                />
-                <polygon
-                  points="8,4 82,4 91,16 82,28 8,28 4,16"
-                  fill="none"
-                  stroke="#00ff88"
-                  strokeWidth="0.6"
-                  strokeOpacity="0.4"
-                  className="transition-opacity group-hover:stroke-opacity-80"
-                />
-              </svg>
-              <ArrowLeft className="w-3.5 h-3.5 text-[#00ff88] relative z-10 transition-transform group-hover:-translate-x-0.5" />
-              <span className="relative z-10 font-sans font-medium text-xs">Back</span>
+              <ArrowLeft className="w-3.5 h-3.5 text-[#00ff88] transition-transform group-hover:-translate-x-0.5" />
+              <span>Back</span>
             </button>
           </div>
+
 
           {/* 3. Progress Steps with 8-Pointed Fantasy Rune Medallions (Desktop) */}
           <div className="hidden md:flex flex-col gap-1 mt-3 relative z-10">
