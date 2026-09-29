@@ -12,6 +12,7 @@
   "dependencies": {
     "@monaco-editor/react": "^4.7.0",
     "@tailwindcss/vite": "^4.3.3",
+    "animejs": "^4.5.0",
     "clsx": "^2.1.1",
     "lucide-react": "^1.48.0",
     "motion": "^13.4.4",

@@ -25,7 +25,7 @@ const DISK_INNER_RADIUS = BLACK_HOLE_RADIUS + 0.2
 const DISK_OUTER_RADIUS = 8.0
 const DISK_TILT_ANGLE = Math.PI / 3.0
 
-export default function LoginScene3D({ activating = false }) {
+export default function LoginScene3D({ activating = false, orbitRef }) {
   const hostRef = useRef(null)
   const mouseRef = useRef({ x: 0, y: 0 })
   const activatingRef = useRef(false)
@@ -66,7 +66,7 @@ export default function LoginScene3D({ activating = false }) {
     renderer.setClearColor(0x020504, 1)
     renderer.outputColorSpace = THREE.SRGBColorSpace
     renderer.toneMapping = THREE.ACESFilmicToneMapping
-    renderer.toneMappingExposure = 1.2
+    renderer.toneMappingExposure = 1.05
     host.appendChild(renderer.domElement)
 
     // ═══════════════════════════════════════════════════════════════
@@ -83,9 +83,9 @@ export default function LoginScene3D({ activating = false }) {
 
     const bloomPass = new UnrealBloomPass(
       new THREE.Vector2(w, h),
-      0.85,  // strength
-      0.7,   // radius
-      0.75   // threshold
+      0.35,  // restrained glow keeps the disk bright while preserving the blackhole detail
+      0.42,  // radius
+      0.82   // threshold: bloom only the brightest parts of the disk
     )
     composer.addPass(bloomPass)
 
@@ -280,7 +280,7 @@ export default function LoginScene3D({ activating = false }) {
           float pulse = sin(uTime * 2.5) * 0.15 + 0.85;
           pulse += uActivating * 0.4;
 
-          gl_FragColor = vec4(glowColor * fresnel * pulse, fresnel * 0.4);
+          gl_FragColor = vec4(glowColor * fresnel * pulse * 0.78, fresnel * 0.26);
         }
       `,
       transparent: true,
@@ -560,15 +560,23 @@ export default function LoginScene3D({ activating = false }) {
     // Base camera position for parallax offset
     const baseCamPos = camera.position.clone()
 
-    renderer.setAnimationLoop(() => {
-      const elapsedTime = clock.getElapsedTime()
+    const renderFrame = () => {
       const deltaTime = clock.getDelta()
+      const elapsedTime = clock.elapsedTime
 
       // ── Mouse parallax — subtle camera offset ──
       const mx = mouseRef.current.x
       const my = mouseRef.current.y
-      camera.position.x = THREE.MathUtils.damp(camera.position.x, baseCamPos.x + mx * 1.2, 2.5, deltaTime || 1 / 60)
-      camera.position.y = THREE.MathUtils.damp(camera.position.y, baseCamPos.y + my * 0.8, 2.5, deltaTime || 1 / 60)
+      const scrollProgress = THREE.MathUtils.clamp(orbitRef?.current?.value ?? 0, 0, 1)
+      // Give each story beat a distinct blackhole viewpoint while the scroll stays natural.
+      const orbitAngle = scrollProgress * 0.68
+      const orbitCos = Math.cos(orbitAngle)
+      const orbitSin = Math.sin(orbitAngle)
+      const orbitX = baseCamPos.x * orbitCos + baseCamPos.z * orbitSin
+      const orbitZ = baseCamPos.z * orbitCos - baseCamPos.x * orbitSin
+      camera.position.x = THREE.MathUtils.damp(camera.position.x, orbitX + mx * 0.7, 2.1, deltaTime || 1 / 60)
+      camera.position.y = THREE.MathUtils.damp(camera.position.y, baseCamPos.y - scrollProgress * 0.62 + my * 0.45, 2.1, deltaTime || 1 / 60)
+      camera.position.z = THREE.MathUtils.damp(camera.position.z, orbitZ, 2.1, deltaTime || 1 / 60)
       camera.lookAt(0, 0, 0)
 
       // ── Update uniforms ──
@@ -609,7 +617,7 @@ export default function LoginScene3D({ activating = false }) {
       eventHorizonMat.uniforms.uActivating.value = activationPhase
 
       // Bloom intensifies
-      bloomPass.strength = 0.85 + activationPhase * 1.2
+      bloomPass.strength = 0.35 + activationPhase * 0.3
 
       // Lensing strengthens
       lensingPass.uniforms.lensingStrength.value = 0.12 + activationPhase * 0.15
@@ -624,7 +632,21 @@ export default function LoginScene3D({ activating = false }) {
 
       // Render with post-processing
       composer.render(deltaTime || 1 / 60)
-    })
+    }
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        renderer.setAnimationLoop(null)
+        return
+      }
+
+      // Reset the clock so returning from a background tab does not jump the scene.
+      clock.start()
+      renderer.setAnimationLoop(renderFrame)
+    }
+
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+    if (!document.hidden) renderer.setAnimationLoop(renderFrame)
 
     // ═══════════════════════════════════════════════════════════════
     //  CLEANUP
@@ -632,6 +654,7 @@ export default function LoginScene3D({ activating = false }) {
     return () => {
       clearTimeout(resizeTimeout)
       observer.disconnect()
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
       renderer.setAnimationLoop(null)
       scene.traverse((obj) => {
         obj.geometry?.dispose()
@@ -647,12 +670,12 @@ export default function LoginScene3D({ activating = false }) {
       renderer.dispose()
       renderer.domElement.remove()
     }
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [orbitRef])
 
   return (
     <div
       ref={hostRef}
-      className="absolute inset-0 z-0"
+      className="fixed inset-0 z-0"
       aria-hidden="true"
       style={{ pointerEvents: 'none' }}
     />

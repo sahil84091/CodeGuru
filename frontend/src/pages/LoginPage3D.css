@@ -10,16 +10,24 @@
   position: relative;
   min-height: 100vh;
   min-height: 100dvh;
-  overflow: hidden;
+  overflow-x: clip;
   background: #020504;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+}
+
+html.login-scroll-story {
+  scroll-snap-type: y proximity;
+}
+
+.login3d-content,
+.story-section,
+.story-finale {
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
 }
 
 /* ── Ambient Gradient Backdrop — warm accretion disk ambience ─────── */
 .login3d-backdrop {
-  position: absolute;
+  position: fixed;
   inset: 0;
   z-index: 0;
   background:
@@ -32,7 +40,7 @@
 
 /* ── Grid Overlay ─────────────────────────────────────────────────── */
 .login3d-grid {
-  position: absolute;
+  position: fixed;
   inset: 0;
   z-index: 1;
   pointer-events: none;
@@ -48,25 +56,38 @@
 .login3d-content {
   position: relative;
   z-index: 10;
+  box-sizing: border-box;
   display: grid;
-  grid-template-columns: 1fr;
-  align-items: center;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  align-content: start;
   gap: 2rem;
   width: 100%;
-  max-width: 1360px;
-  padding: 2rem 1.5rem;
+  max-width: 1440px;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: clamp(7.5rem, 17vh, 10rem) clamp(1.5rem, 5vw, 4.5rem) 2rem;
+  margin: 0 auto;
 }
 @media (min-width: 960px) {
   .login3d-content {
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
-    padding: 2rem 3rem;
+    padding: clamp(7.5rem, 17vh, 10rem) clamp(2rem, 5vw, 4.5rem) 2rem;
+  }
+}
+
+@media (max-width: 959px) {
+  .login3d-content {
+    min-height: 100svh;
+    padding: clamp(7rem, 16vh, 8.5rem) 1.5rem 2.5rem;
   }
 }
 
 /* ── Left Panel (Hero Text) ───────────────────────────────────────── */
 .login3d-hero {
-  max-width: 560px;
+  width: min(600px, 54vw);
+  max-width: 600px;
+  margin: 0;
+  text-align: left;
 }
 
 .login3d-hero-tagline {
@@ -79,6 +100,7 @@
   text-transform: uppercase;
   color: rgba(148, 163, 184, 0.8);
   margin-bottom: 1.5rem;
+  justify-content: flex-start;
 }
 .login3d-hero-tagline::after {
   content: '';
@@ -91,7 +113,7 @@
 
 .login3d-hero h1 {
   font-family: var(--font-heading, 'Outfit', sans-serif);
-  font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+  font-size: clamp(2.7rem, 5.1vw, 4.2rem);
   font-weight: 800;
   line-height: 1.06;
   letter-spacing: -0.025em;
@@ -104,6 +126,7 @@
 }
 
 .login3d-hero-sub {
+  font-family: var(--font-heading, 'Outfit', sans-serif);
   font-size: 1.15rem;
   font-weight: 600;
   color: rgba(226, 232, 240, 0.9);
@@ -111,11 +134,32 @@
 }
 
 .login3d-hero-desc {
+  font-family: var(--font-sans, 'Plus Jakarta Sans', sans-serif);
   font-size: 0.95rem;
   line-height: 1.7;
   color: rgba(148, 163, 184, 0.75);
   max-width: 440px;
+  margin-right: 0;
+  margin-left: 0;
 }
+
+.login3d-hero-continue {
+  display: inline-flex;
+  align-items: center;
+  gap: .65rem;
+  margin-top: 1.4rem;
+  padding: .72rem 1rem;
+  border: 1px solid rgba(51, 224, 183, .28);
+  border-radius: 999px;
+  background: rgba(4, 21, 19, .42);
+  color: #93f2d8;
+  font-size: .78rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: border-color .3s ease, background .3s ease, transform .3s cubic-bezier(.22, 1, .36, 1);
+}
+.login3d-hero-continue:hover { transform: translateY(-2px); border-color: rgba(51, 224, 183, .7); background: rgba(4, 50, 42, .6); }
+.login3d-hero-continue svg { color: #39e1b6; }
 
 /* ── Right Panel (3D Card with Perspective) ───────────────────────── */
 .login3d-card-perspective {
@@ -359,7 +403,7 @@
 
 /* ── Floating Particles (CSS-only ambient particles) ──────────────── */
 .login3d-particles {
-  position: absolute;
+  position: fixed;
   inset: 0;
   z-index: 2;
   pointer-events: none;
@@ -421,6 +465,31 @@
   max-width: 1440px;
   margin: 0 auto;
 }
+.login3d-brand-wrap {
+  position: relative;
+  z-index: 0;
+  display: inline-flex;
+  align-items: center;
+  padding: .45rem .7rem;
+}
+.login3d-brand-stroke {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.login3d-brand-path {
+  fill: rgba(5, 25, 21, .18);
+  stroke: rgba(55, 230, 186, .28);
+  stroke-width: 1.2;
+}
+.login3d-brand-runner {
+  fill: #baffeb;
+  filter: drop-shadow(0 0 3px rgba(52, 255, 202, .95)) drop-shadow(0 0 8px rgba(52, 255, 202, .65));
+}
 @media (min-width: 768px) {
   .login3d-header {
     padding: 1.25rem 2.5rem;
@@ -430,17 +499,30 @@
 /* ── Responsive: Mobile Adjustments ───────────────────────────────── */
 @media (max-width: 959px) {
   .login3d-hero {
-    text-align: center;
-    margin: 0 auto;
-    padding-top: 5rem;
+    width: min(440px, 78vw);
+    max-width: 440px;
+    text-align: left;
+    margin: 0;
+    padding-top: 0;
   }
   .login3d-hero-desc {
-    margin: 0 auto 1rem;
+    margin: 0 0 1rem;
   }
   .login3d-hero-tagline {
-    justify-content: center;
+    justify-content: flex-start;
+    font-size: .58rem;
+    letter-spacing: .18em;
+    margin-bottom: 1rem;
+  }
+  .login3d-hero h1 {
+    font-size: clamp(2.35rem, 7.2vw, 3.4rem);
+    line-height: 1.02;
   }
   .login3d-card-perspective {
     margin-bottom: 2rem;
   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.login-scroll-story { scroll-snap-type: none; }
 }

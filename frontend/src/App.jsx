@@ -4,7 +4,6 @@ import { MotionConfig } from 'motion/react'
 import AppLayout from './layouts/AppLayout'
 
 // Keep the editor, 3D learning map, and individual journeys out of the initial bundle.
-const WelcomePage = lazy(() => import('./pages/WelcomePage'))
 const LoginPage3D = lazy(() => import('./pages/LoginPage3D'))
 const OTPPage = lazy(() => import('./pages/OTPPage'))
 const LanguageSelectionPage = lazy(() => import('./pages/LanguageSelectionPage'))
@@ -22,7 +21,7 @@ export default function App() {
       <Suspense fallback={<div className="min-h-screen bg-base text-neutral-300 flex items-center justify-center font-mono text-sm" role="status">Loading CodeGuru…</div>}>
       <Routes>
         {/* Onboarding & Authentication Flow */}
-        <Route path="/" element={<WelcomePage />} />
+        <Route path="/" element={<LoginPage3D />} />
         <Route path="/login" element={<LoginPage3D />} />
         <Route path="/otp" element={<OTPPage />} />
         <Route path="/welcome" element={<LanguageSelectionPage />} />

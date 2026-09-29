@@ -1,10 +1,12 @@
 import { useRef, useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'motion/react'
-import { ArrowRight, LockKeyhole, Shield } from 'lucide-react'
+import { animate, svg } from 'animejs'
+import { ArrowDown, ArrowRight, LockKeyhole, Shield } from 'lucide-react'
 import CodeGuruLogo from '../components/codeguru/CodeGuruLogo'
 import LoginScene3D from '../components/login/LoginScene3D'
 import { useCodeGuruStore } from '../store/useCodeGuruStore'
+import LoginStory from './LoginStory'
 import './LoginPage3D.css'
 
 /* ── Inline SVG Icons for Google & GitHub (avoids extra deps) ────── */
@@ -23,6 +25,42 @@ function GitHubIcon() {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
       <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.416 22 12c0-5.523-4.477-10-10-10z"/>
+    </svg>
+  )
+}
+
+function LoginBrandStroke() {
+  const strokeRef = useRef(null)
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined
+    const path = strokeRef.current?.querySelector('.login3d-brand-path')
+    const marker = strokeRef.current?.querySelector('.login3d-brand-runner')
+    if (!path || !marker) return undefined
+
+    const pathDraw = animate(svg.createDrawable(path), {
+      draw: '0 1',
+      ease: 'linear',
+      duration: 5000,
+      loop: true,
+    })
+    const pathRunner = animate(marker, {
+      ease: 'linear',
+      duration: 5000,
+      loop: true,
+      ...svg.createMotionPath(path),
+    })
+
+    return () => {
+      pathDraw.revert()
+      pathRunner.revert()
+    }
+  }, [])
+
+  return (
+    <svg ref={strokeRef} className="login3d-brand-stroke" viewBox="0 0 240 80" aria-hidden="true">
+      <path className="login3d-brand-path" d="M32 7H208C222 7 233 18 233 32V48C233 62 222 73 208 73H32C18 73 7 62 7 48V32C7 18 18 7 32 7Z" />
+      <circle className="login3d-brand-runner" cx="0" cy="0" r="3" />
     </svg>
   )
 }
@@ -56,11 +94,18 @@ export default function LoginPage3D() {
   const navigate = useNavigate()
   const { setAuthPhone } = useCodeGuruStore()
   const [phoneDigits, setPhoneDigits] = useState('')
-  const phoneInput = useRef(null)
   const cardRef = useRef(null)
+  const journeyRef = useRef(null)
+  const orbitRef = useRef({ value: 0 })
   const [isActivating, setIsActivating] = useState(false)
 
   const { transform, handleMouseMove, handleMouseLeave } = useCardTilt(cardRef)
+
+  // Keep the long-form login story moving section by section, even on fast wheel flicks.
+  useEffect(() => {
+    document.documentElement.classList.add('login-scroll-story')
+    return () => document.documentElement.classList.remove('login-scroll-story')
+  }, [])
 
   // Navigate after activation animation completes
   useEffect(() => {
@@ -85,10 +130,67 @@ export default function LoginPage3D() {
     setIsActivating(true)
   }
 
+  const loginPanel = (
+    <div
+      className="login3d-card-perspective"
+    >
+      <div
+        ref={cardRef}
+        className="login3d-card"
+        style={{ transform }}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+      >
+        <div className="login3d-card-inner">
+          <div className="login3d-card-intro">
+            <div className="login3d-card-badge"><span style={{ fontSize: '0.85rem' }}>⚡</span>Adventurer Portal</div>
+            <h2 className="login3d-card-title">Welcome Back, Coder</h2>
+            <p className="login3d-card-subtitle">Enter your number to open the portal</p>
+          </div>
+          <div className="login3d-card-actions">
+            <form onSubmit={handleSubmit}>
+              <label className="login3d-phone-label">
+                <span className="login3d-phone-prefix">+91⌄</span>
+                <input
+                  id="login-phone-number"
+                  aria-label="Mobile number"
+                  type="tel"
+                  inputMode="numeric"
+                  value={phoneDigits}
+                  onChange={handlePhoneChange}
+                  placeholder="Enter mobile number"
+                  maxLength={10}
+                  minLength={10}
+                  pattern="[0-9]{10}"
+                  className="login3d-phone-input"
+                  required
+                  disabled={isActivating}
+                  autoComplete="tel"
+                />
+              </label>
+              <button type="submit" disabled={phoneDigits.length !== 10 || isActivating} className="login3d-submit">
+                {isActivating ? <>Opening Portal…</> : <>Begin Your Journey <ArrowRight size={18} /></>}
+              </button>
+            </form>
+
+            <div className="login3d-social-auth">
+              <div className="login3d-divider">or continue with</div>
+              <div className="login3d-social-row">
+                <button type="button" className="login3d-social-btn" aria-label="Sign in with Google"><GoogleIcon />Google</button>
+                <button type="button" className="login3d-social-btn" aria-label="Sign in with GitHub"><GitHubIcon />GitHub</button>
+              </div>
+            </div>
+            <div className="login3d-secure-note"><LockKeyhole size={14} /><span>Your data is encrypted &amp; secure</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+
   return (
-    <div className="login3d-page">
+    <div className="login3d-page" ref={journeyRef}>
       {/* ── 3D Background Scene ─── */}
-      <LoginScene3D activating={isActivating} />
+      <LoginScene3D activating={isActivating} orbitRef={orbitRef} />
 
       {/* ── Ambient Layers ─── */}
       <div className="login3d-backdrop" />
@@ -103,7 +205,10 @@ export default function LoginPage3D() {
 
       {/* ── Header ─── */}
       <header className="login3d-header">
-        <CodeGuruLogo size="md" linkTo="/" />
+        <div className="login3d-brand-wrap">
+          <LoginBrandStroke />
+          <CodeGuruLogo size="md" linkTo="/" />
+        </div>
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -111,12 +216,12 @@ export default function LoginPage3D() {
           className="hidden items-center gap-3 text-xs text-slate-400 sm:flex"
         >
           <Shield size={14} />
-          <span>Secure Login</span>
+          <span>Learn · Practice · Grow</span>
         </motion.div>
       </header>
 
       {/* ── Main Content ─── */}
-      <div className="login3d-content">
+      <main className="login3d-content" id="login">
         {/* ── Left: Hero Text ─── */}
         <motion.section
           className="login3d-hero"
@@ -138,98 +243,16 @@ export default function LoginPage3D() {
             missions, challenges, XP, achievements, and an epic leaderboard
             await your arrival.
           </p>
+          <a className="login3d-hero-continue" href="#learn-by-doing">Explore the journey <ArrowDown size={15} /></a>
         </motion.section>
 
-        {/* ── Right: 3D Login Card ─── */}
-        <motion.div
-          className="login3d-card-perspective"
-          initial={{ opacity: 0, scale: 0.92, rotateY: -8 }}
-          animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-          transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
-        >
-          <div
-            ref={cardRef}
-            className="login3d-card"
-            style={{ transform }}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
-          >
-            <div className="login3d-card-inner">
-              {/* Badge */}
-              <div className="login3d-card-badge">
-                <span style={{ fontSize: '0.85rem' }}>⚡</span>
-                Adventurer Portal
-              </div>
+      </main>
 
-              {/* Title */}
-              <h2 className="login3d-card-title">Welcome Back, Coder</h2>
-              <p className="login3d-card-subtitle">
-                Enter your number to open the portal
-              </p>
-
-              {/* Phone Form */}
-              <form onSubmit={handleSubmit}>
-                <label className="login3d-phone-label">
-                  <span className="login3d-phone-prefix">+91⌄</span>
-                  <input
-                    ref={phoneInput}
-                    id="login-phone-number"
-                    aria-label="Mobile number"
-                    type="tel"
-                    inputMode="numeric"
-                    value={phoneDigits}
-                    onChange={handlePhoneChange}
-                    placeholder="Enter mobile number"
-                    maxLength={10}
-                    minLength={10}
-                    pattern="[0-9]{10}"
-                    className="login3d-phone-input"
-                    required
-                    disabled={isActivating}
-                    autoComplete="tel"
-                  />
-                </label>
-
-                <button
-                  type="submit"
-                  disabled={phoneDigits.length !== 10 || isActivating}
-                  className="login3d-submit"
-                >
-                  {isActivating ? (
-                    <>Opening Portal…</>
-                  ) : (
-                    <>
-                      Begin Your Journey
-                      <ArrowRight size={18} />
-                    </>
-                  )}
-                </button>
-              </form>
-
-              {/* Divider */}
-              <div className="login3d-divider">or continue with</div>
-
-              {/* Social Auth */}
-              <div className="login3d-social-row">
-                <button type="button" className="login3d-social-btn" aria-label="Sign in with Google">
-                  <GoogleIcon />
-                  Google
-                </button>
-                <button type="button" className="login3d-social-btn" aria-label="Sign in with GitHub">
-                  <GitHubIcon />
-                  GitHub
-                </button>
-              </div>
-
-              {/* Security Note */}
-              <div className="login3d-secure-note">
-                <LockKeyhole size={14} />
-                <span>Your data is encrypted & secure</span>
-              </div>
-            </div>
-          </div>
-        </motion.div>
-      </div>
+      <LoginStory
+        journeyRef={journeyRef}
+        orbitRef={orbitRef}
+        loginPanel={loginPanel}
+      />
 
       {/* ── Activation Flash Overlay ─── */}
       <AnimatePresence>
