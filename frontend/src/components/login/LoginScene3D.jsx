@@ -458,59 +458,6 @@ export default function LoginScene3D({ activating = false, orbitRef }) {
     scene.add(accretionDisk)
 
     // ═══════════════════════════════════════════════════════════════
-    //  5. FLOATING CODE GLYPHS — caught in the gravitational field
-    // ═══════════════════════════════════════════════════════════════
-    const glyphs = ['{ }', '< />', '( )', '=>', 'fn', '[ ]', '0x', '++', '&&', '::', '$ ', '//']
-    const glyphData = []
-
-    glyphs.forEach((glyph, i) => {
-      const canvas = document.createElement('canvas')
-      canvas.width = 128
-      canvas.height = 64
-      const ctx = canvas.getContext('2d')
-      ctx.clearRect(0, 0, 128, 64)
-      ctx.font = 'bold 28px monospace'
-      ctx.textAlign = 'center'
-      ctx.textBaseline = 'middle'
-      const colors = ['#00ff66', '#38bdf8', '#a855f7', '#f59e0b']
-      ctx.fillStyle = colors[i % colors.length]
-      ctx.globalAlpha = 0.45
-      ctx.fillText(glyph, 64, 32)
-
-      const texture = new THREE.CanvasTexture(canvas)
-      texture.minFilter = THREE.LinearFilter
-      const sprite = new THREE.Sprite(
-        new THREE.SpriteMaterial({
-          map: texture,
-          transparent: true,
-          opacity: 0.35,
-          blending: THREE.AdditiveBlending,
-          depthWrite: false,
-        })
-      )
-
-      const angle = (i / glyphs.length) * Math.PI * 2
-      const dist = 6 + Math.random() * 4
-      sprite.position.set(
-        Math.cos(angle) * dist,
-        (Math.random() - 0.5) * 6,
-        Math.sin(angle) * dist
-      )
-      sprite.scale.set(0.8, 0.4, 1)
-      scene.add(sprite)
-
-      glyphData.push({
-        sprite,
-        baseY: sprite.position.y,
-        orbitAngle: angle,
-        orbitRadius: dist,
-        orbitSpeed: 0.01 + Math.random() * 0.018,
-        floatSpeed: 0.15 + Math.random() * 0.3,
-        floatAmp: 0.2 + Math.random() * 0.4,
-      })
-    })
-
-    // ═══════════════════════════════════════════════════════════════
     //  6. PORTAL BURST — green ring on activation
     // ═══════════════════════════════════════════════════════════════
     const portalBurstMat = new THREE.MeshStandardMaterial({
@@ -553,7 +500,8 @@ export default function LoginScene3D({ activating = false, orbitRef }) {
     // ═══════════════════════════════════════════════════════════════
     //  ANIMATION LOOP
     // ═══════════════════════════════════════════════════════════════
-    const clock = new THREE.Clock()
+    const clock = new THREE.Timer()
+    clock.connect(document)
     const blackHoleScreenPosVec3 = new THREE.Vector3()
     let activationPhase = 0
 
@@ -561,8 +509,9 @@ export default function LoginScene3D({ activating = false, orbitRef }) {
     const baseCamPos = camera.position.clone()
 
     const renderFrame = () => {
+      clock.update()
       const deltaTime = clock.getDelta()
-      const elapsedTime = clock.elapsedTime
+      const elapsedTime = clock.getElapsed()
 
       // ── Mouse parallax — subtle camera offset ──
       const mx = mouseRef.current.x
@@ -596,14 +545,6 @@ export default function LoginScene3D({ activating = false, orbitRef }) {
       stars.rotation.y += (deltaTime || 1 / 60) * 0.003
       stars.rotation.x += (deltaTime || 1 / 60) * 0.001
       accretionDisk.rotation.z += (deltaTime || 1 / 60) * 0.005
-
-      // ── Code glyphs orbit ──
-      glyphData.forEach((g) => {
-        g.orbitAngle += g.orbitSpeed * (deltaTime || 1 / 60)
-        g.sprite.position.x = Math.cos(g.orbitAngle) * g.orbitRadius
-        g.sprite.position.z = Math.sin(g.orbitAngle) * g.orbitRadius
-        g.sprite.position.y = g.baseY + Math.sin(elapsedTime * g.floatSpeed) * g.floatAmp
-      })
 
       // ── Activation Effects ──
       if (activatingRef.current) {
@@ -641,7 +582,7 @@ export default function LoginScene3D({ activating = false, orbitRef }) {
       }
 
       // Reset the clock so returning from a background tab does not jump the scene.
-      clock.start()
+      clock.reset()
       renderer.setAnimationLoop(renderFrame)
     }
 
@@ -655,6 +596,7 @@ export default function LoginScene3D({ activating = false, orbitRef }) {
       clearTimeout(resizeTimeout)
       observer.disconnect()
       document.removeEventListener('visibilitychange', handleVisibilityChange)
+      clock.dispose()
       renderer.setAnimationLoop(null)
       scene.traverse((obj) => {
         obj.geometry?.dispose()

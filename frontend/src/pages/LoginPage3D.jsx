@@ -1,13 +1,14 @@
-import { useRef, useState, useEffect, useCallback } from 'react'
+import { lazy, Suspense, useRef, useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'motion/react'
 import { animate, svg } from 'animejs'
 import { ArrowDown, ArrowRight, LockKeyhole, Shield } from 'lucide-react'
 import CodeGuruLogo from '../components/codeguru/CodeGuruLogo'
-import LoginScene3D from '../components/login/LoginScene3D'
 import { useCodeGuruStore } from '../store/useCodeGuruStore'
 import LoginStory from './LoginStory'
 import './LoginPage3D.css'
+
+const LoginScene3D = lazy(() => import('../components/login/LoginScene3D'))
 
 /* ── Inline SVG Icons for Google & GitHub (avoids extra deps) ────── */
 function GoogleIcon() {
@@ -67,24 +68,45 @@ function LoginBrandStroke() {
 
 /* ── Card 3D Tilt Hook ────────────────────────────────────────────── */
 function useCardTilt(cardRef) {
-  const [transform, setTransform] = useState('rotateX(0deg) rotateY(0deg) translateZ(0px)')
+  const boundsRef = useRef(null)
+  const frameRef = useRef(0)
+  const pointerRef = useRef({ x: 0, y: 0 })
 
-  const handleMouseMove = useCallback((e) => {
+  const handleMouseEnter = useCallback(() => {
     const card = cardRef.current
     if (!card) return
-    const rect = card.getBoundingClientRect()
-    const centerX = rect.left + rect.width / 2
-    const centerY = rect.top + rect.height / 2
-    const rotateY = ((e.clientX - centerX) / (rect.width / 2)) * 6
-    const rotateX = -((e.clientY - centerY) / (rect.height / 2)) * 4
-    setTransform(`rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(12px)`)
+    boundsRef.current = { ...card.getBoundingClientRect(), scrollY: window.scrollY }
+  }, [cardRef])
+
+  const handleMouseMove = useCallback((e) => {
+    if (!boundsRef.current) return
+    pointerRef.current = { x: e.clientX, y: e.clientY }
+    if (frameRef.current) return
+
+    frameRef.current = requestAnimationFrame(() => {
+      frameRef.current = 0
+      const card = cardRef.current
+      const rect = boundsRef.current
+      if (!card || !rect) return
+
+      const centerX = rect.left + rect.width / 2
+      const centerY = rect.top - (window.scrollY - rect.scrollY) + rect.height / 2
+      const rotateY = ((pointerRef.current.x - centerX) / (rect.width / 2)) * 6
+      const rotateX = -((pointerRef.current.y - centerY) / (rect.height / 2)) * 4
+      card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(12px)`
+    })
   }, [cardRef])
 
   const handleMouseLeave = useCallback(() => {
-    setTransform('rotateX(0deg) rotateY(0deg) translateZ(0px)')
-  }, [])
+    if (frameRef.current) cancelAnimationFrame(frameRef.current)
+    frameRef.current = 0
+    boundsRef.current = null
+    if (cardRef.current) cardRef.current.style.transform = 'rotateX(0deg) rotateY(0deg) translateZ(0px)'
+  }, [cardRef])
 
-  return { transform, handleMouseMove, handleMouseLeave }
+  useEffect(() => () => cancelAnimationFrame(frameRef.current), [])
+
+  return { handleMouseEnter, handleMouseMove, handleMouseLeave }
 }
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -99,7 +121,7 @@ export default function LoginPage3D() {
   const orbitRef = useRef({ value: 0 })
   const [isActivating, setIsActivating] = useState(false)
 
-  const { transform, handleMouseMove, handleMouseLeave } = useCardTilt(cardRef)
+  const { handleMouseEnter, handleMouseMove, handleMouseLeave } = useCardTilt(cardRef)
 
   // Keep the long-form login story moving section by section, even on fast wheel flicks.
   useEffect(() => {
@@ -137,10 +159,13 @@ export default function LoginPage3D() {
       <div
         ref={cardRef}
         className="login3d-card"
-        style={{ transform }}
+        onMouseEnter={handleMouseEnter}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
       >
+        <svg className="login3d-card-stroke" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          <rect className="story-login-card-stroke-path" x="1" y="1" width="98" height="98" rx="4" />
+        </svg>
         <div className="login3d-card-inner">
           <div className="login3d-card-intro">
             <div className="login3d-card-badge"><span style={{ fontSize: '0.85rem' }}>⚡</span>Adventurer Portal</div>
@@ -190,7 +215,9 @@ export default function LoginPage3D() {
   return (
     <div className="login3d-page" ref={journeyRef}>
       {/* ── 3D Background Scene ─── */}
-      <LoginScene3D activating={isActivating} orbitRef={orbitRef} />
+      <Suspense fallback={<div className="fixed inset-0 z-0 pointer-events-none" aria-hidden="true" />}>
+        <LoginScene3D activating={isActivating} orbitRef={orbitRef} />
+      </Suspense>
 
       {/* ── Ambient Layers ─── */}
       <div className="login3d-backdrop" />

@@ -12,7 +12,7 @@ import {
 } from 'lucide-react'
 import CodeGuruLogo from '../components/codeguru/CodeGuruLogo'
 import { useCodeGuruStore } from '../store/useCodeGuruStore'
-import rewardMapAsset from '../assets/foundations_reward_map.png'
+import rewardMapAsset from '../assets/foundations_reward_map.webp'
 
 export default function ResultPage() {
   const { id } = useParams()

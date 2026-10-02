@@ -6,6 +6,13 @@
   background: linear-gradient(180deg, transparent 0%, rgba(2, 8, 8, .12) 18%, rgba(2, 8, 8, .04) 48%, rgba(2, 8, 8, .14) 78%, transparent 100%);
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  .login-story [data-story-item] {
+    opacity: 0;
+    transform: translateY(34px) scale(.97);
+  }
+}
+
 .story-scroll-cue {
   position: absolute;
   z-index: 3;
@@ -176,6 +183,24 @@
 .story-finale-copy > p { max-width: 400px; margin: 1.35rem 0 0; color: rgba(208, 225, 221, .77); line-height: 1.7; }
 .story-final-login { min-width: 0; }
 .story-final-login .login3d-card-perspective { margin: 0; }
+.story-final-login .login3d-card-stroke {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.story-login-card-stroke-path {
+  fill: none;
+  stroke: #69ffdb;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  opacity: 0;
+  filter: drop-shadow(0 0 5px rgba(75, 255, 214, .9));
+  vector-effect: non-scaling-stroke;
+}
 .story-final-login .login3d-card {
   max-width: 780px;
   min-height: 410px;

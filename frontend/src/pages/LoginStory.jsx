@@ -102,6 +102,7 @@ export default function LoginStory({ journeyRef, orbitRef, loginPanel }) {
       enter: 'top top',
       leave: 'bottom bottom',
       sync: 0.35,
+      repeat: true,
     })
     observers.push(cameraObserver)
     const cameraMotion = { value: 0 }
@@ -113,54 +114,78 @@ export default function LoginStory({ journeyRef, orbitRef, loginPanel }) {
     }))
 
     root.querySelectorAll('[data-story-section]').forEach((section) => {
+      let sectionAnimations = []
+      let hasPlayed = false
+
+      const playSection = () => {
+        if (hasPlayed) return
+        hasPlayed = true
+
+        const items = section.querySelectorAll('[data-story-item]')
+        const reveal = createTimeline({ autoplay: false })
+        reveal.add(items, {
+          opacity: [0, 1],
+          y: [34, 0],
+          scale: [0.97, 1],
+          duration: 780,
+          ease: 'out(4)',
+          delay: stagger(105),
+        })
+        sectionAnimations.push(reveal)
+
+        const route = section.querySelector('.story-draw-path')
+        const runner = section.querySelector('.story-runner')
+        if (route) {
+          sectionAnimations.push(animate(svg.createDrawable(route), {
+            draw: ['0 0', '0 1'],
+            duration: 1050,
+            ease: 'inOut(2)',
+            autoplay: false,
+          }))
+          if (runner) {
+            sectionAnimations.push(animate(runner, {
+              ...svg.createMotionPath(route),
+              duration: 1350,
+              ease: 'inOut(2)',
+              autoplay: false,
+            }))
+          }
+        }
+
+        const progressFill = section.querySelector('[data-story-progress-fill]')
+        if (progressFill) {
+          sectionAnimations.push(animate(progressFill, {
+            scaleX: [0, 0.64],
+            duration: 1050,
+            ease: 'out(3)',
+            autoplay: false,
+          }))
+        }
+
+        const cardStroke = section.querySelector('.story-login-card-stroke-path')
+        if (cardStroke) {
+          sectionAnimations.push(animate(svg.createDrawable(cardStroke), {
+            draw: ['0 0.14', '0.86 1'],
+            opacity: [1, 0],
+            duration: 2100,
+            ease: 'linear',
+            autoplay: false,
+          }))
+        }
+
+        sectionAnimations.forEach((animation) => animation.play())
+      }
+
       const observer = onScroll({
         target: section,
         enter: 'bottom 82%',
         leave: 'top 24%',
-        sync: 0.24,
+        onEnter: playSection,
       })
       observers.push(observer)
-
-      const items = section.querySelectorAll('[data-story-item]')
-      const reveal = createTimeline({ autoplay: observer })
-      reveal.add(items, {
-        opacity: [0, 1],
-        y: [34, 0],
-        scale: [0.97, 1],
-        duration: 780,
-        ease: 'out(4)',
-        delay: stagger(105),
+      animations.push({
+        revert: () => sectionAnimations.forEach((animation) => animation.revert?.()),
       })
-      animations.push(reveal)
-
-      const route = section.querySelector('.story-draw-path')
-      const runner = section.querySelector('.story-runner')
-      if (route) {
-        animations.push(animate(svg.createDrawable(route), {
-          draw: ['0 0', '0 1'],
-          duration: 1050,
-          ease: 'inOut(2)',
-          autoplay: observer,
-        }))
-        if (runner) {
-          animations.push(animate(runner, {
-            ...svg.createMotionPath(route),
-            duration: 1350,
-            ease: 'inOut(2)',
-            autoplay: observer,
-          }))
-        }
-      }
-
-      const progressFill = section.querySelector('[data-story-progress-fill]')
-      if (progressFill) {
-        animations.push(animate(progressFill, {
-          scaleX: [0, 0.64],
-          duration: 1050,
-          ease: 'out(3)',
-          autoplay: observer,
-        }))
-      }
     })
 
     return () => {
@@ -195,7 +220,7 @@ export default function LoginStory({ journeyRef, orbitRef, loginPanel }) {
             <p data-story-item>Start with one mission. See where your progress takes you.</p>
             <div className="story-finale-foot" data-story-item><Gamepad2 size={15} /> LEARN <span>·</span> PLAY <span>·</span> PRACTICE <span>·</span> GROW</div>
           </div>
-          <div className="story-final-login">{loginPanel}</div>
+          <div className="story-final-login" data-story-item>{loginPanel}</div>
         </div>
       </section>
     </div>

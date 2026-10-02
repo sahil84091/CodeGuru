@@ -4,7 +4,7 @@ import { motion } from 'motion/react'
 import { ArrowRight, Check, Code2, BarChart3, Trophy, Gamepad2 } from 'lucide-react'
 import CodeGuruLogo from '../components/codeguru/CodeGuruLogo'
 import { useCodeGuruStore } from '../store/useCodeGuruStore'
-import podiumArt from '../assets/language_podium_art.png'
+import podiumArt from '../assets/language_podium_art.webp'
 
 export default function LanguageSelectionPage() {
   const navigate = useNavigate()

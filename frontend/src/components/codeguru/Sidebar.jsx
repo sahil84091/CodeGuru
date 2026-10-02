@@ -9,7 +9,7 @@ import {
   User
 } from 'lucide-react'
 import CodeGuruLogo from './CodeGuruLogo'
-import robotCard from '../../assets/companion_bot_card.png'
+import robotCard from '../../assets/companion_bot_card.webp'
 
 export default function Sidebar() {
   const location = useLocation()

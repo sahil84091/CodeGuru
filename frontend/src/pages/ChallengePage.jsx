@@ -18,7 +18,7 @@ import {
 import CodeGuruLogo from '../components/codeguru/CodeGuruLogo'
 import { activeChallengeData } from '../data/mockData'
 import { useCodeGuruStore } from '../store/useCodeGuruStore'
-import challengeLandscape from '../assets/world_map_clean.png'
+import challengeLandscape from '../assets/world_map_clean.webp'
 
 export default function ChallengePage() {
   const { id } = useParams()

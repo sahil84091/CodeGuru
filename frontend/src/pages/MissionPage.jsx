@@ -19,7 +19,7 @@ import {
   TrendingUp
 } from 'lucide-react'
 import { useCodeGuruStore } from '../store/useCodeGuruStore'
-import shrineAsset from '../assets/shrine_cube_art.png'
+import shrineAsset from '../assets/shrine_cube_art.webp'
 
 export default function MissionPage() {
   const { id } = useParams()

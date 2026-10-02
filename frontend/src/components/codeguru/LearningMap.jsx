@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'motion/react'
 import { Lock } from 'lucide-react'
-import worldMap from '../../assets/world_map_clean.png'
+import worldMap from '../../assets/world_map_clean.webp'
 
 export default function LearningMap() {
   const navigate = useNavigate()
