@@ -1,0 +1,780 @@
+/* ==========================================================================
+   CodeGuru OTP Verification Page - Fantasy Landscape & RPG HUD Theme
+   ========================================================================== */
+
+/* ── Root Container ───────────────────────────────────────────────────────── */
+.otp-fantasy-root {
+  background-color: #020504;
+  position: relative;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── Background Image Layer (Exact User Artwork) ─────────────────────────── */
+.otp-bg-image-layer {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Subtle Dark Atmospheric Overlay ─────────────────────────────────────── */
+/* Protects UI contrast without hiding moon, castle, waterfalls, bridge or lanterns */
+.otp-bg-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background: 
+    /* Center focal shadow for OTP boxes, text & bow readability */
+    radial-gradient(ellipse 68% 52% at 50% 48%, rgba(2, 6, 5, 0.72) 0%, rgba(2, 6, 5, 0.44) 55%, rgba(2, 6, 5, 0.18) 100%),
+    /* Soft vertical gradient to anchor the top header and bottom dock */
+    linear-gradient(180deg, rgba(2, 5, 4, 0.45) 0%, transparent 22%, transparent 68%, rgba(1, 4, 3, 0.7) 100%);
+}
+
+/* ── 3. Living World Ambient Animations (Quietly Alive Fantasy World) ────── */
+
+/* A. Moon Halo Breathing Glow & Drifting Wispy Moon Cloud */
+.otp-moon-halo {
+  position: absolute;
+  top: 4%;
+  left: 65%;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(220, 255, 245, 0.16) 0%, rgba(180, 245, 230, 0.06) 50%, transparent 80%);
+  filter: blur(14px);
+  pointer-events: none;
+  animation: otpMoonHaloGlow 8s ease-in-out infinite alternate;
+}
+
+@keyframes otpMoonHaloGlow {
+  0% { transform: scale(0.92); opacity: 0.5; }
+  100% { transform: scale(1.18); opacity: 0.95; }
+}
+
+.otp-moon-cloud {
+  position: absolute;
+  top: 7%;
+  left: 61%;
+  width: 140px;
+  height: 36px;
+  border-radius: 9999px;
+  background: radial-gradient(ellipse at 50% 50%, rgba(200, 240, 235, 0.08) 0%, rgba(180, 220, 220, 0.03) 60%, transparent 85%);
+  filter: blur(12px);
+  pointer-events: none;
+  animation: otpMoonCloudDrift 48s ease-in-out infinite alternate;
+}
+
+@keyframes otpMoonCloudDrift {
+  0% { transform: translateX(-18px) scaleX(0.95); opacity: 0.35; }
+  50% { transform: translateX(14px) scaleX(1.1); opacity: 0.65; }
+  100% { transform: translateX(-10px) scaleX(1); opacity: 0.4; }
+}
+
+/* B. Distant Castle Window Lights (Subtle warm amber flickers, no flash) */
+.otp-castle-light {
+  position: absolute;
+  border-radius: 50%;
+  background: #f59e0b;
+  box-shadow: 0 0 6px rgba(245, 158, 11, 0.8), 0 0 12px rgba(245, 158, 11, 0.4);
+  filter: blur(0.8px);
+  pointer-events: none;
+}
+
+.otp-castle-light-1 {
+  top: 24.5%;
+  left: 77.3%;
+  width: 3px;
+  height: 3px;
+  animation: otpCastleFlicker1 5.2s ease-in-out infinite;
+}
+
+.otp-castle-light-2 {
+  top: 29.8%;
+  left: 75.8%;
+  width: 3.5px;
+  height: 3.5px;
+  animation: otpCastleFlicker2 6.4s ease-in-out infinite;
+}
+
+.otp-castle-light-3 {
+  top: 28%;
+  left: 79.2%;
+  width: 2.5px;
+  height: 2.5px;
+  animation: otpCastleFlicker3 4.7s ease-in-out infinite;
+}
+
+.otp-castle-light-4 {
+  top: 34.5%;
+  left: 74%;
+  width: 3px;
+  height: 3px;
+  animation: otpCastleFlicker4 5.9s ease-in-out infinite;
+}
+
+@keyframes otpCastleFlicker1 {
+  0%, 100% { opacity: 0.45; transform: scale(0.9); }
+  25% { opacity: 0.85; transform: scale(1.1); }
+  50% { opacity: 0.6; transform: scale(0.95); }
+  75% { opacity: 0.95; transform: scale(1.15); }
+}
+
+@keyframes otpCastleFlicker2 {
+  0%, 100% { opacity: 0.75; transform: scale(1.05); }
+  30% { opacity: 0.4; transform: scale(0.85); }
+  60% { opacity: 0.9; transform: scale(1.15); }
+  85% { opacity: 0.55; transform: scale(0.95); }
+}
+
+@keyframes otpCastleFlicker3 {
+  0%, 100% { opacity: 0.5; transform: scale(0.95); }
+  40% { opacity: 0.9; transform: scale(1.2); }
+  70% { opacity: 0.35; transform: scale(0.8); }
+}
+
+@keyframes otpCastleFlicker4 {
+  0%, 100% { opacity: 0.65; transform: scale(1); }
+  35% { opacity: 0.45; transform: scale(0.9); }
+  70% { opacity: 0.85; transform: scale(1.1); }
+}
+
+/* C. Waterfalls & River Chute Shimmer */
+.otp-waterfall-shimmer {
+  position: absolute;
+  top: 48%;
+  left: 74.2%;
+  width: 26px;
+  height: 110px;
+  background: linear-gradient(180deg, 
+    transparent 0%, 
+    rgba(180, 255, 235, 0.1) 25%, 
+    rgba(220, 255, 250, 0.22) 50%, 
+    rgba(180, 255, 235, 0.1) 75%, 
+    transparent 100%
+  );
+  filter: blur(3px);
+  pointer-events: none;
+  animation: otpWaterfallFlow 2.8s linear infinite;
+}
+
+@keyframes otpWaterfallFlow {
+  0% { transform: translateY(-35px); opacity: 0.25; }
+  50% { opacity: 0.75; }
+  100% { transform: translateY(35px); opacity: 0.25; }
+}
+
+.otp-river-shimmer {
+  position: absolute;
+  bottom: 16%;
+  left: 69%;
+  width: 80px;
+  height: 40px;
+  background: radial-gradient(ellipse at 50% 50%, rgba(180, 255, 230, 0.08) 0%, rgba(140, 235, 210, 0.03) 60%, transparent 85%);
+  filter: blur(8px);
+  pointer-events: none;
+  animation: otpRiverPulse 5.5s ease-in-out infinite alternate;
+}
+
+@keyframes otpRiverPulse {
+  0% { transform: scaleX(0.92) scaleY(0.9); opacity: 0.35; }
+  100% { transform: scaleX(1.1) scaleY(1.05); opacity: 0.75; }
+}
+
+/* D. Stone Steps Lantern Breathing Glow (Left & Right) */
+.otp-lantern-glow-left {
+  position: absolute;
+  bottom: 13%;
+  left: 12.8%;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(251, 191, 36, 0.22) 0%, rgba(245, 158, 11, 0.08) 50%, transparent 75%);
+  filter: blur(14px);
+  pointer-events: none;
+  animation: otpLanternBreatheLeft 3.8s ease-in-out infinite alternate;
+}
+
+.otp-lantern-glow-right {
+  position: absolute;
+  bottom: 11%;
+  left: 92.5%;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(251, 191, 36, 0.22) 0%, rgba(245, 158, 11, 0.08) 50%, transparent 75%);
+  filter: blur(14px);
+  pointer-events: none;
+  animation: otpLanternBreatheRight 4.4s ease-in-out infinite alternate;
+}
+
+@keyframes otpLanternBreatheLeft {
+  0% { transform: scale(0.92); opacity: 0.6; }
+  50% { transform: scale(1.08); opacity: 0.95; }
+  100% { transform: scale(0.95); opacity: 0.7; }
+}
+
+@keyframes otpLanternBreatheRight {
+  0% { transform: scale(0.95); opacity: 0.65; }
+  50% { transform: scale(1.1); opacity: 0.98; }
+  100% { transform: scale(0.9); opacity: 0.55; }
+}
+
+/* E. Multi-Layer Depth Mountain Mist / Fog (Foreground, Midground, Background) */
+.otp-fog-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Distant mountain haze (Background layer - slowest) */
+.otp-fog-deep {
+  position: absolute;
+  top: 25%;
+  right: -20%;
+  width: 150%;
+  height: 38%;
+  background: radial-gradient(ellipse 60% 35% at 55% 40%, rgba(16, 185, 129, 0.035) 0%, rgba(4, 30, 20, 0.07) 50%, transparent 75%);
+  filter: blur(55px);
+  animation: otpFogDriftDeep 58s ease-in-out infinite alternate;
+}
+
+/* Valley & forest mist (Midground layer) */
+.otp-fog-mid {
+  position: absolute;
+  bottom: 16%;
+  left: -30%;
+  width: 160%;
+  height: 42%;
+  background: radial-gradient(ellipse 60% 35% at 50% 80%, rgba(0, 255, 128, 0.045) 0%, rgba(6, 26, 18, 0.09) 45%, transparent 75%);
+  filter: blur(45px);
+  animation: otpFogDriftMid 40s ease-in-out infinite alternate;
+}
+
+/* Lower ground fog (Foreground layer - slightly faster) */
+.otp-fog-front {
+  position: absolute;
+  bottom: 0;
+  left: -20%;
+  width: 140%;
+  height: 32%;
+  background: radial-gradient(ellipse 55% 30% at 45% 90%, rgba(0, 255, 136, 0.035) 0%, rgba(3, 18, 12, 0.06) 40%, transparent 70%);
+  filter: blur(35px);
+  animation: otpFogDriftFront 26s ease-in-out infinite alternate;
+}
+
+@keyframes otpFogDriftDeep {
+  0% { transform: translateX(0) scaleX(1); opacity: 0.5; }
+  50% { transform: translateX(-3%) scaleX(1.04); opacity: 0.7; }
+  100% { transform: translateX(3%) scaleX(0.97); opacity: 0.55; }
+}
+
+@keyframes otpFogDriftMid {
+  0% { transform: translateX(0) scaleY(1); opacity: 0.55; }
+  50% { transform: translateX(4%) scaleY(1.05); opacity: 0.8; }
+  100% { transform: translateX(-3%) scaleY(0.96); opacity: 0.6; }
+}
+
+@keyframes otpFogDriftFront {
+  0% { transform: translateX(0) scaleX(1); opacity: 0.5; }
+  50% { transform: translateX(-5%) scaleX(1.06); opacity: 0.8; }
+  100% { transform: translateX(4%) scaleX(0.95); opacity: 0.55; }
+}
+
+/* F. Emerald Ground / Altar Caustic Glow */
+.otp-ground-glow {
+  position: absolute;
+  bottom: 12%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  max-width: 850px;
+  height: 220px;
+  background: radial-gradient(ellipse 50% 35% at 50% 65%, rgba(0, 255, 136, 0.09) 0%, rgba(0, 200, 100, 0.03) 50%, transparent 75%);
+  filter: blur(28px);
+  pointer-events: none;
+}
+
+/* G. Ambient Floating Particles (Emerald, Soft White, Warm Gold) */
+.otp-ambient-mote {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: otpAmbientMoteFloat linear infinite;
+}
+
+@keyframes otpAmbientMoteFloat {
+  0% {
+    transform: translateY(105vh) scale(0.4);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.8;
+  }
+  85% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-15vh) scale(1);
+    opacity: 0;
+  }
+}
+
+/* H. Faint CodeGuru Environmental Energy Traces */
+.otp-code-energy-trace {
+  position: absolute;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-weight: 700;
+  color: rgba(0, 255, 136, 0.28);
+  pointer-events: none;
+  user-select: none;
+  animation: otpEnergyTraceFloat linear infinite;
+}
+
+@keyframes otpEnergyTraceFloat {
+  0% {
+    transform: translateY(105vh) scale(0.6);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.25;
+  }
+  80% {
+    opacity: 0.25;
+  }
+  100% {
+    transform: translateY(-15vh) scale(1);
+    opacity: 0;
+  }
+}
+
+/* Accessibility: Respect Reduced Motion Preferences */
+@media (prefers-reduced-motion: reduce) {
+  .otp-moon-halo,
+  .otp-moon-cloud,
+  .otp-castle-light,
+  .otp-waterfall-shimmer,
+  .otp-river-shimmer,
+  .otp-lantern-glow-left,
+  .otp-lantern-glow-right,
+  .otp-fog-deep,
+  .otp-fog-mid,
+  .otp-fog-front,
+  .otp-ambient-mote,
+  .otp-code-energy-trace {
+    animation: none !important;
+    opacity: 0.3 !important;
+  }
+}
+
+/* ── HUD Sidebar Fantasy Styling (Exact Reference Match) ─────────────────── */
+.otp-sidebar {
+  background: linear-gradient(180deg, rgba(3, 11, 8, 0.9) 0%, rgba(3, 9, 7, 0.82) 40%, rgba(2, 6, 5, 0.68) 75%, rgba(1, 4, 3, 0.5) 100%);
+  border-right: 1px solid rgba(197, 160, 89, 0.35);
+  box-shadow: 6px 0 35px rgba(0, 0, 0, 0.85), inset -1px 0 0 rgba(0, 255, 136, 0.12);
+  backdrop-filter: blur(16px);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Modern Clean Game Header Panel (CodeGuru Logo Area) */
+.otp-sidebar-logo-card {
+  background: rgba(4, 16, 12, 0.78);
+  border: 1px solid rgba(0, 255, 136, 0.28);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 255, 136, 0.08);
+  backdrop-filter: blur(10px);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.otp-sidebar-logo-card:hover {
+  border-color: rgba(0, 255, 136, 0.45);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.6), 0 0 14px rgba(0, 255, 136, 0.16);
+}
+
+/* Modern Clean Back Button */
+.otp-sidebar-back-btn {
+  background: rgba(4, 16, 12, 0.72);
+  border: 1px solid rgba(0, 255, 136, 0.25);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  transition: all 0.2s ease;
+}
+
+.otp-sidebar-back-btn:hover {
+  background: rgba(6, 24, 18, 0.85);
+  border-color: rgba(0, 255, 136, 0.5);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 255, 136, 0.2);
+  transform: translateX(-1px);
+}
+
+/* 8-Pointed Fantasy Rune Medallions */
+.otp-medallion-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
+
+/* Step 2 Active Medallion Glow & Pulse */
+.otp-medallion-active {
+  animation: otpActiveMedallionPulse 2.4s ease-in-out infinite alternate;
+}
+
+@keyframes otpActiveMedallionPulse {
+  0% {
+    filter: drop-shadow(0 0 8px rgba(0, 255, 136, 0.45)) drop-shadow(0 0 10px rgba(245, 158, 11, 0.3));
+  }
+  100% {
+    filter: drop-shadow(0 0 16px rgba(0, 255, 136, 0.8)) drop-shadow(0 0 18px rgba(245, 158, 11, 0.55));
+  }
+}
+
+/* Connecting Energy Line Stream */
+.otp-step-energy-line {
+  position: relative;
+  overflow: hidden;
+  border-radius: 9999px;
+}
+
+.otp-energy-stream-dot {
+  position: absolute;
+  left: -2px;
+  width: 5px;
+  height: 8px;
+  background: #ffffff;
+  border-radius: 9999px;
+  box-shadow: 0 0 8px #ffffff, 0 0 14px #00ff88;
+  animation: otpEnergyStream 1.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes otpEnergyStream {
+  0% { top: -20%; opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { top: 110%; opacity: 0; }
+}
+
+/* Subtle Rising Ember Motes from Sidebar Bottom Lantern */
+.otp-sidebar-mote {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: otpSidebarMoteFloat 5s ease-in-out infinite;
+}
+
+@keyframes otpSidebarMoteFloat {
+  0% {
+    transform: translateY(15px) scale(0.6);
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.75;
+  }
+  75% {
+    opacity: 0.75;
+  }
+  100% {
+    transform: translateY(-45px) scale(1.1);
+    opacity: 0;
+  }
+}
+
+
+/* ── Top Navbar HUD Styling ───────────────────────────────────────────────── */
+.otp-navbar {
+  background: linear-gradient(180deg, rgba(3, 8, 6, 0.85) 0%, rgba(3, 8, 6, 0.62) 100%);
+  border-bottom: 1px solid rgba(24, 48, 36, 0.55);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(12px);
+}
+
+.otp-timer-badge {
+  background: linear-gradient(135deg, rgba(12, 26, 20, 0.9) 0%, rgba(5, 13, 10, 0.94) 100%);
+  border: 1px solid rgba(34, 74, 52, 0.8);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(0, 255, 136, 0.15);
+}
+
+.otp-user-badge {
+  background: radial-gradient(circle at 35% 35%, #163625 0%, #0a1c13 100%);
+  border: 1px solid rgba(0, 255, 136, 0.45);
+  box-shadow: 0 0 12px rgba(0, 255, 136, 0.25);
+}
+
+/* ── FANTASY RUNE SLOT BOXES (EXACT REFERENCE DESIGN) ─────────────────────── */
+.otp-rune-slot {
+  position: relative;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.22s ease;
+}
+
+.otp-rune-slot:hover {
+  transform: translateY(-2px);
+}
+
+/* Clipped Translucent Dark Emerald / Black Interior */
+.otp-rune-interior {
+  position: absolute;
+  inset: 0;
+  clip-path: polygon(
+    0% 18%, 
+    16% 8%, 
+    50% 1%, 
+    84% 8%, 
+    100% 18%, 
+    100% 82%, 
+    84% 92%, 
+    50% 99%, 
+    16% 92%, 
+    0% 82%
+  );
+  background: radial-gradient(circle at 50% 45%, rgba(12, 34, 25, 0.92) 0%, rgba(5, 18, 13, 0.95) 65%, rgba(2, 9, 6, 0.98) 100%);
+  backdrop-filter: blur(12px);
+  box-shadow: inset 0 3px 12px rgba(0, 0, 0, 0.85), inset 0 -3px 12px rgba(0, 0, 0, 0.85);
+  transition: all 0.25s ease;
+}
+
+/* SVG Frame Overlay (Gold Rim, Emerald Trace & Top/Bottom Diamonds) */
+.otp-rune-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+  z-index: 5;
+}
+
+.otp-gold-rim {
+  transition: stroke-width 0.25s ease, opacity 0.25s ease, filter 0.25s ease;
+}
+
+.otp-emerald-trace {
+  transition: stroke 0.25s ease, stroke-width 0.25s ease, stroke-opacity 0.25s ease;
+}
+
+.otp-jewel-core {
+  transition: fill 0.25s ease, filter 0.25s ease;
+}
+
+/* ── States ───────────────────────────────────────────────────────────────── */
+
+/* Empty Slot */
+.otp-rune-slot.is-empty .otp-rune-interior {
+  background: radial-gradient(circle at 50% 45%, rgba(8, 22, 17, 0.88) 0%, rgba(3, 12, 9, 0.94) 70%, rgba(1, 5, 4, 0.98) 100%);
+}
+
+.otp-rune-slot.is-empty .otp-gold-rim {
+  opacity: 0.8;
+}
+
+.otp-rune-slot.is-empty .otp-emerald-trace {
+  opacity: 0.4;
+}
+
+.otp-rune-slot.is-empty .otp-jewel-core {
+  fill: #0c3e29;
+}
+
+/* Active Slot: Soft Gold & Emerald Pulse */
+.otp-rune-slot.is-active {
+  filter: drop-shadow(0 0 10px rgba(0, 255, 136, 0.35)) drop-shadow(0 0 5px rgba(245, 158, 11, 0.3));
+  animation: otpSlotActivePulse 2.4s ease-in-out infinite alternate;
+}
+
+.otp-rune-slot.is-active .otp-rune-interior {
+  background: radial-gradient(circle at 50% 45%, rgba(18, 48, 36, 0.95) 0%, rgba(7, 24, 18, 0.96) 65%, rgba(3, 12, 9, 0.98) 100%);
+}
+
+.otp-rune-slot.is-active .otp-gold-rim {
+  opacity: 1;
+}
+
+.otp-rune-slot.is-active .otp-emerald-trace {
+  opacity: 1;
+}
+
+.otp-rune-slot.is-active .otp-jewel-core {
+  fill: #00ffcc;
+  filter: drop-shadow(0 0 4px #00ffcc);
+  animation: otpJewelGlow 1.8s ease-in-out infinite alternate;
+}
+
+@keyframes otpSlotActivePulse {
+  0% {
+    filter: drop-shadow(0 0 8px rgba(0, 255, 136, 0.25)) drop-shadow(0 0 3px rgba(245, 158, 11, 0.15));
+  }
+  100% {
+    filter: drop-shadow(0 0 16px rgba(0, 255, 136, 0.5)) drop-shadow(0 0 7px rgba(245, 158, 11, 0.38));
+  }
+}
+
+@keyframes otpJewelGlow {
+  0% { fill: #00e6b8; filter: drop-shadow(0 0 2px #00e6b8); }
+  100% { fill: #74ffe0; filter: drop-shadow(0 0 6px #00ffcc); }
+}
+
+/* Completed / Filled Slot */
+.otp-rune-slot.is-filled {
+  filter: drop-shadow(0 0 8px rgba(0, 255, 136, 0.28));
+}
+
+.otp-rune-slot.is-filled .otp-rune-interior {
+  background: radial-gradient(circle at 50% 45%, rgba(14, 38, 28, 0.94) 0%, rgba(6, 20, 15, 0.96) 65%, rgba(2, 9, 6, 0.98) 100%);
+}
+
+.otp-rune-slot.is-filled .otp-gold-rim {
+  opacity: 0.95;
+}
+
+.otp-rune-slot.is-filled .otp-emerald-trace {
+  opacity: 0.9;
+}
+
+.otp-rune-slot.is-filled .otp-jewel-core {
+  fill: #00ffcc;
+  filter: drop-shadow(0 0 3px rgba(0, 255, 204, 0.75));
+}
+
+/* ── Large Centered Digit (Pale Mint / Cyan-Emerald Glow) ─────────────────── */
+.otp-digit-text {
+  color: #74ffe0;
+  font-family: 'JetBrains Mono', 'Fira Code', var(--font-mono, monospace);
+  font-weight: 900;
+  text-shadow: 
+    0 0 10px rgba(0, 255, 170, 0.75),
+    0 0 22px rgba(0, 255, 170, 0.38),
+    0 1px 3px rgba(0, 0, 0, 0.95);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+/* Target Dot when active & empty */
+.otp-rune-target-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #00ffcc;
+  box-shadow: 0 0 8px #00ffcc, 0 0 3px #ffffff;
+  animation: otpTargetDotPulse 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes otpTargetDotPulse {
+  0% { transform: scale(0.8); opacity: 0.6; }
+  100% { transform: scale(1.2); opacity: 1; }
+}
+
+/* ── Pedestal Altar Inscription Banner (Matches Reference) ───────────────── */
+.otp-altar-banner {
+  filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.75));
+}
+
+/* ── Number Selector HUD Dock ─────────────────────────────────────────────── */
+.otp-numpad-dock {
+  background: linear-gradient(180deg, rgba(11, 23, 18, 0.86) 0%, rgba(5, 13, 10, 0.95) 100%);
+  border: 1px solid rgba(34, 72, 52, 0.8);
+  box-shadow: 
+    0 18px 45px rgba(0, 0, 0, 0.75),
+    0 0 30px rgba(0, 255, 136, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px);
+}
+
+.otp-num-token {
+  position: relative;
+  background: linear-gradient(180deg, #13241b 0%, #0b1712 100%);
+  border: 1px solid rgba(36, 68, 50, 0.8);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  color: #e2e8f0;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.otp-num-token:hover {
+  transform: translateY(-2px);
+  border-color: rgba(0, 255, 136, 0.6);
+  color: #ffffff;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6), 0 0 12px rgba(0, 255, 136, 0.25);
+}
+
+.otp-num-token:active {
+  transform: translateY(1px);
+}
+
+/* Selected Digit Token: Vivid Emerald + Gold Glow Ring */
+.otp-num-token.is-selected {
+  background: radial-gradient(circle at 35% 35%, #052417 0%, #02110a 100%);
+  border: 2px solid #00ff88;
+  color: #00ff88;
+  box-shadow: 
+    0 0 22px rgba(0, 255, 136, 0.7),
+    0 0 8px rgba(245, 158, 11, 0.35),
+    inset 0 0 12px rgba(0, 255, 136, 0.3);
+  transform: scale(1.1);
+}
+
+/* ── Premium Fantasy Verify Button ────────────────────────────────────────── */
+.otp-verify-btn {
+  background: linear-gradient(135deg, #00ff88 0%, #10b981 50%, #f59e0b 100%);
+  border: 1px solid #a7f3d0;
+  color: #031309;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  box-shadow: 
+    0 0 25px rgba(0, 255, 136, 0.5),
+    0 0 10px rgba(245, 158, 11, 0.3),
+    0 4px 15px rgba(0, 0, 0, 0.4);
+  transition: all 0.2s ease;
+}
+
+.otp-verify-btn:hover:not(:disabled) {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 
+    0 0 35px rgba(0, 255, 136, 0.7),
+    0 0 15px rgba(245, 158, 11, 0.5),
+    0 6px 20px rgba(0, 0, 0, 0.5);
+}
+
+.otp-verify-btn:active:not(:disabled) {
+  transform: translateY(0) scale(0.99);
+}
+
+/* ── Arrow Burst Spark Particles ──────────────────────────────────────────── */
+.otp-spark-burst {
+  position: absolute;
+  pointer-events: none;
+  z-index: 40;
+}
+
+.otp-spark-particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #00ff88;
+  box-shadow: 0 0 8px #00ff88, 0 0 4px #ffd700;
+  animation: otpSparkFly 0.55s ease-out forwards;
+}
+
+@keyframes otpSparkFly {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--tx), var(--ty)) scale(0.2);
+    opacity: 0;
+  }
+}

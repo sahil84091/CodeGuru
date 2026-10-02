@@ -34,44 +34,76 @@ export default function BowScene3D({ aimingSlot = 0, drawAmount = 0 }) {
     renderer.toneMappingExposure = 1.2
     host.appendChild(renderer.domElement)
 
-    scene.add(new THREE.HemisphereLight(0xcafff2, 0x08100e, 2.2))
-    const key = new THREE.DirectionalLight(0xc9fff1, 3.3)
+    scene.add(new THREE.HemisphereLight(0xb5ffee, 0x040a08, 2.4))
+    const key = new THREE.DirectionalLight(0xd4fff3, 3.5)
     key.position.set(-3, 4, 6)
     scene.add(key)
-    const rim = new THREE.PointLight(0x00f2b3, 5, 8)
+    
+    // Emerald ground caustic bounce light (matching fantasy floor caustic)
+    const caustic = new THREE.PointLight(0x00ff88, 3.8, 10)
+    caustic.position.set(0, -1.8, 1.2)
+    scene.add(caustic)
+
+    // Subtle warm gold rim light for fantasy depth
+    const goldRim = new THREE.PointLight(0xffb84d, 1.8, 8)
+    goldRim.position.set(2.5, 1, 2)
+    scene.add(goldRim)
+
+    const rim = new THREE.PointLight(0x00f2b3, 4.5, 8)
     rim.position.set(0, 0, 2.5)
     scene.add(rim)
 
     const bow = new THREE.Group()
     scene.add(bow)
-    const darkMetal = new THREE.MeshStandardMaterial({ color: 0x111a19, metalness: 0.9, roughness: 0.24 })
-    const graphite = new THREE.MeshStandardMaterial({ color: 0x30423f, metalness: 0.92, roughness: 0.2 })
-    const green = new THREE.MeshStandardMaterial({ color: 0x51ffdc, emissive: 0x00dca8, emissiveIntensity: 2.7, metalness: 0.25, roughness: 0.22 })
-    const stringMaterial = new THREE.LineBasicMaterial({ color: 0xc8fff5, transparent: true, opacity: 0.95 })
+
+    // Premium fantasy materials
+    const darkObsidian = new THREE.MeshStandardMaterial({ color: 0x0b1411, metalness: 0.94, roughness: 0.18 })
+    const damascusTrim = new THREE.MeshStandardMaterial({ color: 0x1f332a, metalness: 0.92, roughness: 0.24 })
+    const goldAccent = new THREE.MeshStandardMaterial({ color: 0xd4af37, metalness: 0.95, roughness: 0.28 })
+    const runeGreen = new THREE.MeshStandardMaterial({ color: 0x00ff99, emissive: 0x00e676, emissiveIntensity: 3.6, metalness: 0.2, roughness: 0.18 })
+    const stringMaterial = new THREE.LineBasicMaterial({ color: 0x9effd8, transparent: true, opacity: 0.95 })
 
     const limb = [[-2.03, -0.84, 0], [-1.75, -0.38, 0.02], [-1.48, 0.13, 0.07], [-1.12, 0.43, 0.09], [-0.62, 0.39, 0.06], [0, 0.16, 0], [0.62, 0.39, 0.06], [1.12, 0.43, 0.09], [1.48, 0.13, 0.07], [1.75, -0.38, 0.02], [2.03, -0.84, 0]]
-    bow.add(tube(limb, 0.1, darkMetal, 72))
-    bow.add(tube(limb, 0.042, graphite, 72))
-    bow.add(tube([[-1.9, -0.55, 0.11], [-1.45, 0.14, 0.13], [-0.95, 0.38, 0.12]], 0.018, green))
-    bow.add(tube([[1.9, -0.55, 0.11], [1.45, 0.14, 0.13], [0.95, 0.38, 0.12]], 0.018, green))
+    bow.add(tube(limb, 0.105, darkObsidian, 72))
+    bow.add(tube(limb, 0.045, damascusTrim, 72))
+    // Glowing emerald rune channels
+    bow.add(tube([[-1.9, -0.55, 0.11], [-1.45, 0.14, 0.13], [-0.95, 0.38, 0.12]], 0.022, runeGreen))
+    bow.add(tube([[1.9, -0.55, 0.11], [1.45, 0.14, 0.13], [0.95, 0.38, 0.12]], 0.022, runeGreen))
 
+    // Gold accent collars at limb tips
     for (const x of [-2.03, 2.03]) {
-      const tip = new THREE.Mesh(new THREE.SphereGeometry(0.12, 18, 14), graphite)
+      const tipCollar = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.11, 0.12, 16), goldAccent)
+      tipCollar.position.set(x * 0.92, -0.72, 0.02)
+      bow.add(tipCollar)
+
+      const tip = new THREE.Mesh(new THREE.SphereGeometry(0.12, 18, 14), damascusTrim)
       tip.position.set(x, -0.84, 0.03)
       bow.add(tip)
-      const light = new THREE.Mesh(new THREE.SphereGeometry(0.045, 12, 10), green)
+      const light = new THREE.Mesh(new THREE.SphereGeometry(0.048, 12, 10), runeGreen)
       light.position.set(x, -0.84, 0.12)
       bow.add(light)
     }
 
-    const grip = new THREE.Mesh(new THREE.BoxGeometry(0.34, 0.72, 0.32), darkMetal)
+    // Grip section with gold and obsidian layering
+    const grip = new THREE.Mesh(new THREE.BoxGeometry(0.36, 0.74, 0.33), darkObsidian)
     grip.position.set(0, -0.55, 0.06)
     grip.rotation.z = -0.1
     bow.add(grip)
-    const gripPlate = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.46, 0.08), graphite)
+
+    const gripCollar1 = new THREE.Mesh(new THREE.BoxGeometry(0.38, 0.06, 0.35), goldAccent)
+    gripCollar1.position.set(0, -0.22, 0.06)
+    bow.add(gripCollar1)
+
+    const gripCollar2 = new THREE.Mesh(new THREE.BoxGeometry(0.38, 0.06, 0.35), goldAccent)
+    gripCollar2.position.set(0, -0.88, 0.06)
+    bow.add(gripCollar2)
+
+    const gripPlate = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.48, 0.09), damascusTrim)
     gripPlate.position.set(0, -0.55, 0.24)
     bow.add(gripPlate)
-    const codeCore = new THREE.Mesh(new THREE.OctahedronGeometry(0.13, 0), green)
+
+    // Code Core Gem (radiant octahedron)
+    const codeCore = new THREE.Mesh(new THREE.OctahedronGeometry(0.14, 0), runeGreen)
     codeCore.position.set(0, -0.53, 0.31)
     bow.add(codeCore)
 
@@ -79,13 +111,13 @@ export default function BowScene3D({ aimingSlot = 0, drawAmount = 0 }) {
     const string = new THREE.Line(stringGeometry, stringMaterial)
     scene.add(string)
     const arrow = new THREE.Group()
-    const shaft = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.035, 1.38, 10), graphite)
+    const shaft = new THREE.Mesh(new THREE.CylinderGeometry(0.026, 0.036, 1.4, 12), damascusTrim)
     shaft.position.y = 0.12
     arrow.add(shaft)
-    const point = new THREE.Mesh(new THREE.ConeGeometry(0.095, 0.25, 8), green)
-    point.position.y = 0.9
+    const point = new THREE.Mesh(new THREE.ConeGeometry(0.105, 0.28, 8), runeGreen)
+    point.position.y = 0.92
     arrow.add(point)
-    const nock = new THREE.Mesh(new THREE.SphereGeometry(0.075, 12, 10), green)
+    const nock = new THREE.Mesh(new THREE.SphereGeometry(0.08, 12, 10), runeGreen)
     nock.position.y = -0.58
     arrow.add(nock)
     bow.add(arrow)
